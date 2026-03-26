@@ -1,0 +1,302 @@
+{
+  "model_types": [
+    {
+      "name": "qwen35_a3b",
+      "default_begin_port": null,
+      "default_gpu_nums": null,
+      "category": "polaris",
+      "entries": [
+        {
+          "key": "OCR_harveyshen_distill_a3b",
+          "type": "polaris",
+          "polaris_name": "OCR_harveyshen_distill_a3b_AIDE",
+          "model_path": "OCR_harveyshen_distill_a3b",
+          "api_key": "no_key",
+          "split": "default"
+        },
+        {
+          "key": "GUI_harveyshen_distill_a3b",
+          "type": "polaris",
+          "polaris_name": "GUI_harveyshen_distill_a3b_AIDE",
+          "model_path": "GUI_harveyshen_distill_a3b",
+          "api_key": "no_key",
+          "split": "default"
+        },
+        {
+          "key": "GUI_sh_harveyshen_distill_a3b",
+          "type": "polaris",
+          "polaris_name": "GUI_sh_harveyshen_distill_a3b_new_AIDE",
+          "model_path": "GUI_sh_harveyshen_distill_a3b_new",
+          "api_key": "no_key",
+          "split": "default"
+        },
+        {
+          "key": "GUI_harveyshen_distill_a3b_h20_sh",
+          "type": "polaris",
+          "polaris_name": "GUI_harveyshen_distill_a3b_h20_sh_AIDE",
+          "model_path": "GUI_harveyshen_distill_a3b_h20_sh",
+          "api_key": "no_key",
+          "split": "default"
+        },
+        {
+          "key": "GUI_harveyshen_distill_a3b_h20_sh3",
+          "type": "polaris",
+          "polaris_name": "GUI_harveyshen_distill_a3b_h20_sh3_AIDE",
+          "model_path": "GUI_harveyshen_distill_a3b_h20_sh3",
+          "api_key": "no_key",
+          "split": "default"
+        },
+        {
+          "key": "GUI_harveyshen_distill_a3b_h20_sh_bak",
+          "type": "polaris",
+          "polaris_name": "GUI_harveyshen_distill_a3b_h20_sh_bak_AIDE",
+          "model_path": "GUI_harveyshen_distill_a3b_h20_sh_bak",
+          "api_key": "no_key",
+          "split": "default"
+        },
+        {
+          "key": "GUI_harveyshen_distill_a3b_h20_sh3_bak",
+          "type": "polaris",
+          "polaris_name": "GUI_harveyshen_distill_a3b_h20_sh3_bak_AIDE",
+          "model_path": "GUI_harveyshen_distill_a3b_h20_sh3_bak",
+          "api_key": "no_key",
+          "split": "default"
+        }
+      ]
+    },
+    {
+      "name": "qwen3vl_4b",
+      "default_begin_port": 19982,
+      "default_gpu_nums": 1,
+      "default_model_path": "Qwen3-VL-4B-Instruct",
+      "default_api_key": "hyocr_20260112",
+      "category": "ip",
+      "entries": []
+    },
+    {
+      "name": "qwen3vl",
+      "default_begin_port": 22003,
+      "default_gpu_nums": 1,
+      "default_model_path": "Qwen3-VL-235B-A22B-Instruct",
+      "default_api_key": "hyocr_20260105",
+      "category": "ip",
+      "entries": []
+    },
+    {
+      "name": "glm",
+      "default_begin_port": 22003,
+      "default_gpu_nums": 1,
+      "default_model_path": "glm-4.6v",
+      "default_api_key": "hyocr_20260129",
+      "category": "ip",
+      "entries": [
+        {
+          "key": "gui_glm_4x16",
+          "ip": [
+            "29.120.39.116",
+            "29.146.4.66",
+            "29.251.212.214",
+            "29.228.166.23",
+            "29.228.158.131",
+            "29.251.212.211",
+            "29.228.166.21",
+            "29.174.238.79",
+            "29.228.158.177",
+            "29.174.240.9",
+            "29.228.68.54",
+            "29.238.90.169",
+            "29.251.218.59",
+            "29.251.218.60",
+            "29.120.38.33",
+            "29.238.22.175"
+          ],
+          "model_path": "glm-4.6v",
+          "api_key": "hyocr_20260129",
+          "split": "default"
+        },
+        {
+          "key": "ocr_glm_4x16_1",
+          "ip": [
+            "29.174.192.17",
+            "29.174.192.104",
+            "29.246.166.16",
+            "29.228.168.174",
+            "29.238.62.6",
+            "29.238.20.108",
+            "29.238.118.84",
+            "29.174.222.140",
+            "29.175.0.146",
+            "29.175.0.200",
+            "29.228.180.23",
+            "29.228.180.163",
+            "29.175.46.123",
+            "29.175.46.122",
+            "29.228.166.126",
+            "29.228.166.186"
+          ],
+          "model_path": "glm-4.6v",
+          "api_key": "hyocr_20260129",
+          "split": "default"
+        },
+        {
+          "key": "ocr_glm_4x16_2",
+          "ip": [
+            "29.238.118.91",
+            "29.174.192.96",
+            "29.120.33.112",
+            "29.251.186.83",
+            "29.251.186.193",
+            "29.251.243.3",
+            "29.246.106.180",
+            "29.175.72.16",
+            "29.175.44.156",
+            "29.246.166.20",
+            "29.246.38.198",
+            "29.175.72.18",
+            "29.238.148.163",
+            "29.228.78.124",
+            "29.246.130.58",
+            "29.228.78.125"
+          ],
+          "model_path": "glm-4.6v",
+          "api_key": "hyocr_20260129",
+          "split": "default"
+        },
+        {
+          "key": "ocr_glm_4x16_3",
+          "ip": [
+            "29.175.110.128",
+            "29.246.38.205",
+            "29.174.222.200",
+            "29.246.130.92",
+            "29.120.11.217",
+            "29.228.58.89",
+            "29.238.10.92",
+            "29.238.138.182",
+            "29.238.136.119",
+            "29.228.64.45",
+            "29.120.10.23",
+            "29.175.6.66",
+            "29.174.222.202",
+            "29.238.136.120",
+            "29.120.100.155",
+            "29.175.6.70"
+          ],
+          "model_path": "glm-4.6v",
+          "api_key": "hyocr_20260129",
+          "split": "default"
+        },
+        {
+          "key": "gui_glm_4x14",
+          "ip": [
+            "29.251.236.158",
+            "29.238.94.69",
+            "29.238.6.84",
+            "29.175.88.179",
+            "29.238.212.148",
+            "29.238.192.173",
+            "29.238.192.84",
+            "29.238.64.129",
+            "29.174.174.163",
+            "29.238.64.130",
+            "29.120.31.199",
+            "29.238.228.46",
+            "29.238.110.184",
+            "29.246.144.219"
+          ],
+          "model_path": "glm-4.6v",
+          "api_key": "hyocr_20260129",
+          "split": "default"
+        }
+      ]
+    },
+    {
+      "name": "mai_ui",
+      "default_begin_port": 19982,
+      "default_gpu_nums": 1,
+      "category": "ip",
+      "entries": [
+        {
+          "key": "gui_sh_2x2",
+          "ip": [
+            "11.238.32.137",
+            "29.121.98.11"
+          ],
+          "model_path": "MAI-UI-8B",
+          "api_key": "hyocr_20260112",
+          "split": "default"
+        }
+      ],
+      "default_model_path": "MAI-UI-8B",
+      "default_api_key": "hyocr_20260112"
+    },
+    {
+      "name": "qwen35",
+      "default_begin_port": null,
+      "default_gpu_nums": null,
+      "category": "polaris",
+      "entries": [
+        {
+          "key": "gui_polaris_128_batch_size_2",
+          "type": "polaris",
+          "polaris_name": "GUI-Qwen3.5-397B-A17B-FP8-H20_harveyshen_128concurrency_v2_AIDE",
+          "model_path": "GUI-Qwen3.5-397B-A17B-FP8-H20_harveyshen_128concurrency_v2",
+          "api_key": "no_key",
+          "split": "gui_video"
+        },
+        {
+          "key": "gui_polaris_share",
+          "type": "polaris",
+          "polaris_name": "GUI-Qwen3.5-397B-A17B-FP8-H20_share_AIDE",
+          "model_path": "GUI-Qwen3.5-397B-A17B-FP8-H20_share",
+          "api_key": "no_key",
+          "split": "gui_video"
+        },
+        {
+          "key": "gui_polaris_128_batch_size_3",
+          "type": "polaris",
+          "polaris_name": "GUI-Qwen3.5-397B-A17B-FP8-H20_gengluoli_AIDE",
+          "model_path": "GUI-Qwen3.5-397B-A17B-FP8-H20_gengluoli",
+          "api_key": "no_key",
+          "split": "gui_video"
+        },
+        {
+          "key": "ocr_polaris",
+          "type": "polaris",
+          "polaris_name": "GUI-Qwen3.5-397B-A17B-FP8-eth_AIDE",
+          "model_path": "GUI-Qwen3.5-397B-A17B-FP8-eth",
+          "api_key": "no_key",
+          "split": "ocr"
+        },
+        {
+          "key": "gui_video_polaris",
+          "type": "polaris",
+          "polaris_name": "GUI-Qwen3.5-397B-A17B-FP8-H20_AIDE",
+          "model_path": "GUI-Qwen3.5-397B-A17B-FP8-H20",
+          "api_key": "no_key",
+          "split": "gui_video"
+        }
+      ]
+    },
+    {
+      "name": "ui_venus_1_5",
+      "default_begin_port": 19982,
+      "default_gpu_nums": 1,
+      "default_model_path": "UI-Venus-1.5-30B-A3B",
+      "default_api_key": "hyocr_20260112",
+      "category": "ip",
+      "entries": [
+        {
+          "key": "gui_sh_2x2",
+          "ip": [
+            "11.238.39.144",
+            "29.121.46.11"
+          ],
+          "model_path": "UI-Venus-1.5-30B-A3B",
+          "api_key": "hyocr_20260112",
+          "split": "default"
+        }
+      ]
+    }
+  ]
+}
