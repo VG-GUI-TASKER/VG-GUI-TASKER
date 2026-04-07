@@ -563,6 +563,8 @@ def generate_report(tracker: ProgressTracker, output_base: str):
 
 
 def main():
+    global MIN_VIEW_COUNT, MIN_DURATION, MAX_DURATION
+
     parser = argparse.ArgumentParser(
         description="Desktop GUI Tutorial Video Downloader",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -610,7 +612,6 @@ Examples:
     args = parser.parse_args()
 
     # 更新全局过滤参数
-    global MIN_VIEW_COUNT, MIN_DURATION, MAX_DURATION
     MIN_VIEW_COUNT = args.min_views
     MIN_DURATION = args.min_duration
     MAX_DURATION = args.max_duration
