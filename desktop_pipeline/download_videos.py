@@ -175,13 +175,12 @@ def generate_query_variants(base_query: str, domain: str) -> list[str]:
 def search_videos(query: str, proxy: Optional[str] = None,
                   max_results: int = SEARCH_COUNT) -> list[dict]:
     """
-    用 yt-dlp 搜索 YouTube 视频，返回 info dict 列表。
-    只获取元数据，不下载视频。
+    用 yt-dlp 搜索 YouTube 视频，返回完整 info dict 列表（含时长、观看数等）。
+    不使用 --flat-playlist，直接获取完整元数据，避免二次请求被拦截。
     """
     cmd = [
         "yt-dlp",
         "--dump-json",
-        "--flat-playlist",
         "--no-download",
         f"ytsearch{max_results}:{query}",
     ]
@@ -190,7 +189,7 @@ def search_videos(query: str, proxy: Optional[str] = None,
 
     try:
         result = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=120
+            cmd, capture_output=True, text=True, timeout=300
         )
         if result.returncode != 0:
             logging.warning(f"yt-dlp search failed for query: {query}")
@@ -211,29 +210,6 @@ def search_videos(query: str, proxy: Optional[str] = None,
     except Exception as e:
         logging.warning(f"yt-dlp search error for query: {query}: {e}")
         return []
-
-
-def get_video_info(video_id: str, proxy: Optional[str] = None) -> Optional[dict]:
-    """
-    获取单个视频的完整 info（含时长、观看数等），用于过滤。
-    """
-    url = f"https://www.youtube.com/watch?v={video_id}"
-    cmd = [
-        "yt-dlp",
-        "--dump-json",
-        "--no-download",
-        url,
-    ]
-    if proxy:
-        cmd.extend(["--proxy", proxy])
-
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-        if result.returncode != 0:
-            return None
-        return json.loads(result.stdout)
-    except Exception:
-        return None
 
 
 def filter_video(info: dict) -> tuple[bool, str]:
@@ -419,56 +395,33 @@ def process_task(task: dict, output_base: str, proxy: Optional[str],
         tracker.record_failure(task_id, "no_candidates")
         return []
 
-    # 对候选视频做详细过滤
-    # flat-playlist 模式拿到的 info 不完整，需要逐个获取详情再过滤
+    # 对候选视频做过滤（搜索已返回完整 info，直接过滤）
     passed = []
     for entry in candidates:
         vid = entry.get("id") or entry.get("url", "").split("=")[-1]
         if not vid:
             continue
 
-        # 快速预过滤（flat-playlist 中可能有 duration）
-        dur = entry.get("duration")
-        if dur is not None:
-            if dur < MIN_DURATION or dur > MAX_DURATION:
-                tracker.increment_stats(filtered_out=1)
-                continue
-
-        views = entry.get("view_count")
-        if views is not None and views < MIN_VIEW_COUNT:
-            tracker.increment_stats(filtered_out=1)
-            continue
-
-        # 获取完整 info 做详细过滤
-        logging.info(f"  Checking video {vid}...")
-        full_info = get_video_info(vid, proxy=proxy)
-        if full_info is None:
-            logging.info(f"    -> Could not get info, skipping")
-            tracker.increment_stats(filtered_out=1)
-            continue
-
-        ok, reason = filter_video(full_info)
+        ok, reason = filter_video(entry)
         if not ok:
-            logging.info(f"    -> Filtered out: {reason}")
+            logging.info(f"    [{vid}] Filtered out: {reason}")
             tracker.increment_stats(filtered_out=1)
             continue
 
-        logging.info(f"    -> PASSED (duration={full_info.get('duration', '?')}s, "
-                     f"views={full_info.get('view_count', '?')}, "
-                     f"title={full_info.get('title', '?')[:60]})")
+        logging.info(f"    [{vid}] PASSED (duration={entry.get('duration', '?')}s, "
+                     f"views={entry.get('view_count', '?')}, "
+                     f"title={entry.get('title', '?')[:60]})")
         passed.append({
             "video_id": vid,
-            "title": full_info.get("title", ""),
-            "duration": full_info.get("duration", 0),
-            "view_count": full_info.get("view_count", 0),
-            "channel": full_info.get("channel", ""),
-            "upload_date": full_info.get("upload_date", ""),
+            "title": entry.get("title", ""),
+            "duration": entry.get("duration", 0),
+            "view_count": entry.get("view_count", 0),
+            "channel": entry.get("channel", ""),
+            "upload_date": entry.get("upload_date", ""),
         })
 
         if len(passed) >= max_per_task:
             break
-
-        time.sleep(0.5)
 
     if not passed:
         logging.warning(f"  [FAIL] No videos passed filter for [{task_id}]")
