@@ -1,0 +1,1743 @@
+{
+  "metadata": {
+    "description": "Desktop GUI Video Collection Task List for VG-GUI-Bench",
+    "version": "1.0",
+    "total_tasks": 170,
+    "target_videos": 150,
+    "domains": {
+      "office_excel": 20,
+      "office_word": 15,
+      "office_powerpoint": 10,
+      "photoshop": 20,
+      "illustrator": 10,
+      "premiere_pro": 8,
+      "after_effects": 5,
+      "web_browser_chrome": 15,
+      "web_browser_firefox": 5,
+      "cad_autocad": 12,
+      "cad_fusion360": 8,
+      "ide_vscode": 12,
+      "ide_pycharm": 5,
+      "os_windows": 12,
+      "os_macos": 8,
+      "blender": 5
+    }
+  },
+  "tasks": [
+    {
+      "id": "excel_001",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Create a pivot table from a data range",
+      "search_query": "how to create pivot table in Excel tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "type"]
+    },
+    {
+      "id": "excel_002",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Use VLOOKUP function to match data across sheets",
+      "search_query": "how to use VLOOKUP in Excel step by step tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "medium",
+      "action_types": ["click", "type", "keyboard_shortcut"]
+    },
+    {
+      "id": "excel_003",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Create a chart from data and customize it",
+      "search_query": "how to create and format chart in Excel tutorial",
+      "expected_steps": "6-10",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "right_click"]
+    },
+    {
+      "id": "excel_004",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Apply conditional formatting to highlight cells",
+      "search_query": "how to use conditional formatting in Excel tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "excel_005",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Create data validation dropdown list",
+      "search_query": "how to create dropdown list data validation Excel tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "excel_006",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Use IF and nested IF formulas",
+      "search_query": "how to use IF formula nested IF Excel tutorial",
+      "expected_steps": "4-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "excel_007",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Sort and filter data in a table",
+      "search_query": "how to sort and filter data Excel table tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "right_click"]
+    },
+    {
+      "id": "excel_008",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Freeze panes to lock rows and columns",
+      "search_query": "how to freeze panes lock rows columns Excel tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "excel_009",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Create a macro to automate repetitive tasks",
+      "search_query": "how to record macro in Excel step by step tutorial",
+      "expected_steps": "6-12",
+      "difficulty": "hard",
+      "action_types": ["click", "type", "keyboard_shortcut"]
+    },
+    {
+      "id": "excel_010",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Use SUMIF and COUNTIF functions",
+      "search_query": "how to use SUMIF COUNTIF function Excel tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "excel_011",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Create and format a table with headers",
+      "search_query": "how to create format table with headers Excel tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "drag", "type"]
+    },
+    {
+      "id": "excel_012",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Use INDEX MATCH as an alternative to VLOOKUP",
+      "search_query": "how to use INDEX MATCH formula Excel tutorial",
+      "expected_steps": "5-9",
+      "difficulty": "hard",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "excel_013",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Protect worksheet and lock specific cells",
+      "search_query": "how to protect worksheet lock cells Excel tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click", "type"]
+    },
+    {
+      "id": "excel_014",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Remove duplicate rows from data",
+      "search_query": "how to remove duplicates Excel tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "excel_015",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Create a dynamic named range",
+      "search_query": "how to create dynamic named range Excel tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "hard",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "excel_016",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Use text to columns to split data",
+      "search_query": "how to use text to columns split data Excel tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "excel_017",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Create a waterfall chart",
+      "search_query": "how to create waterfall chart Excel tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click"]
+    },
+    {
+      "id": "excel_018",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Use Goal Seek for what-if analysis",
+      "search_query": "how to use Goal Seek what if analysis Excel tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "excel_019",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Import data from CSV and clean it",
+      "search_query": "how to import CSV clean data Excel Power Query tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "excel_020",
+      "domain": "office_excel",
+      "software": "Microsoft Excel",
+      "task": "Create a sparkline in cells",
+      "search_query": "how to insert sparkline in Excel tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "drag"]
+    },
+
+    {
+      "id": "word_001",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Create a table of contents from headings",
+      "search_query": "how to create table of contents Word tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "word_002",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Set up mail merge with address list",
+      "search_query": "how to mail merge Word step by step tutorial",
+      "expected_steps": "8-15",
+      "difficulty": "hard",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "word_003",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Insert and format page numbers",
+      "search_query": "how to add page numbers Word different first page tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "easy",
+      "action_types": ["click", "double_click"]
+    },
+    {
+      "id": "word_004",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Track changes and add comments for review",
+      "search_query": "how to track changes add comments Word tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type", "right_click"]
+    },
+    {
+      "id": "word_005",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Create and apply custom styles",
+      "search_query": "how to create custom styles Word tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click", "type"]
+    },
+    {
+      "id": "word_006",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Insert and edit a table",
+      "search_query": "how to insert format table Word tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "easy",
+      "action_types": ["click", "type", "drag"]
+    },
+    {
+      "id": "word_007",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Add watermark to document",
+      "search_query": "how to add watermark Word document tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "word_008",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Set different headers and footers for sections",
+      "search_query": "how to set different headers footers each section Word tutorial",
+      "expected_steps": "6-10",
+      "difficulty": "hard",
+      "action_types": ["click", "double_click", "type"]
+    },
+    {
+      "id": "word_009",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Use Find and Replace with formatting options",
+      "search_query": "how to find and replace formatting Word tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "type", "keyboard_shortcut"]
+    },
+    {
+      "id": "word_010",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Create a bibliography and citations",
+      "search_query": "how to create bibliography citations Word tutorial",
+      "expected_steps": "6-10",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "word_011",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Insert and wrap text around an image",
+      "search_query": "how to insert image wrap text Word tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "drag", "right_click"]
+    },
+    {
+      "id": "word_012",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Create columns layout for newsletter",
+      "search_query": "how to create columns layout newsletter Word tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "word_013",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Add footnotes and endnotes",
+      "search_query": "how to add footnotes endnotes Word tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "word_014",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Create a fillable form with content controls",
+      "search_query": "how to create fillable form Word tutorial",
+      "expected_steps": "6-10",
+      "difficulty": "hard",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "word_015",
+      "domain": "office_word",
+      "software": "Microsoft Word",
+      "task": "Compare two documents side by side",
+      "search_query": "how to compare two documents Word tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+
+    {
+      "id": "ppt_001",
+      "domain": "office_powerpoint",
+      "software": "Microsoft PowerPoint",
+      "task": "Add slide transitions and animations",
+      "search_query": "how to add transitions animations PowerPoint tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click"]
+    },
+    {
+      "id": "ppt_002",
+      "domain": "office_powerpoint",
+      "software": "Microsoft PowerPoint",
+      "task": "Create a custom slide master and layout",
+      "search_query": "how to create custom slide master layout PowerPoint tutorial",
+      "expected_steps": "6-10",
+      "difficulty": "hard",
+      "action_types": ["click", "right_click", "type"]
+    },
+    {
+      "id": "ppt_003",
+      "domain": "office_powerpoint",
+      "software": "Microsoft PowerPoint",
+      "task": "Insert and edit a SmartArt diagram",
+      "search_query": "how to insert SmartArt diagram PowerPoint tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "ppt_004",
+      "domain": "office_powerpoint",
+      "software": "Microsoft PowerPoint",
+      "task": "Record a narrated slideshow",
+      "search_query": "how to record narration slideshow PowerPoint tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click"]
+    },
+    {
+      "id": "ppt_005",
+      "domain": "office_powerpoint",
+      "software": "Microsoft PowerPoint",
+      "task": "Create motion path animation for objects",
+      "search_query": "how to create motion path animation PowerPoint tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ppt_006",
+      "domain": "office_powerpoint",
+      "software": "Microsoft PowerPoint",
+      "task": "Embed and trim a video in a slide",
+      "search_query": "how to embed trim video PowerPoint slide tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ppt_007",
+      "domain": "office_powerpoint",
+      "software": "Microsoft PowerPoint",
+      "task": "Create hyperlinks and action buttons for navigation",
+      "search_query": "how to create hyperlinks action buttons PowerPoint tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click", "type"]
+    },
+    {
+      "id": "ppt_008",
+      "domain": "office_powerpoint",
+      "software": "Microsoft PowerPoint",
+      "task": "Use morph transition between slides",
+      "search_query": "how to use morph transition PowerPoint tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ppt_009",
+      "domain": "office_powerpoint",
+      "software": "Microsoft PowerPoint",
+      "task": "Add and format a chart in a slide",
+      "search_query": "how to add format chart PowerPoint tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "ppt_010",
+      "domain": "office_powerpoint",
+      "software": "Microsoft PowerPoint",
+      "task": "Export presentation as video",
+      "search_query": "how to export save PowerPoint as video MP4 tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+
+    {
+      "id": "ps_001",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Remove background from an image",
+      "search_query": "how to remove background Photoshop tutorial",
+      "expected_steps": "4-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ps_002",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Use layer masks to blend two images",
+      "search_query": "how to use layer mask blend images Photoshop tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "keyboard_shortcut"]
+    },
+    {
+      "id": "ps_003",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Retouch skin and remove blemishes",
+      "search_query": "how to retouch skin remove blemishes Photoshop tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ps_004",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Create text effect with layer styles",
+      "search_query": "how to create text effect layer styles Photoshop tutorial",
+      "expected_steps": "6-12",
+      "difficulty": "hard",
+      "action_types": ["click", "type", "double_click"]
+    },
+    {
+      "id": "ps_005",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Use the pen tool to make precise selections",
+      "search_query": "how to use pen tool selection Photoshop tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "hard",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ps_006",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Adjust color balance and levels",
+      "search_query": "how to adjust color balance levels curves Photoshop tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ps_007",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Use content-aware fill to remove objects",
+      "search_query": "how to use content aware fill remove object Photoshop tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ps_008",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Create a composite image with multiple layers",
+      "search_query": "how to create composite image multiple layers Photoshop tutorial",
+      "expected_steps": "8-15",
+      "difficulty": "hard",
+      "action_types": ["click", "drag", "keyboard_shortcut"]
+    },
+    {
+      "id": "ps_009",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Apply and customize smart filters",
+      "search_query": "how to apply smart filters Photoshop tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ps_010",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Use clipping mask to clip image to shape",
+      "search_query": "how to use clipping mask shape Photoshop tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click", "keyboard_shortcut"]
+    },
+    {
+      "id": "ps_011",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Change hair color with hue and saturation",
+      "search_query": "how to change hair color Photoshop hue saturation tutorial",
+      "expected_steps": "5-9",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ps_012",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Create a double exposure effect",
+      "search_query": "how to create double exposure effect Photoshop tutorial",
+      "expected_steps": "6-12",
+      "difficulty": "hard",
+      "action_types": ["click", "drag", "keyboard_shortcut"]
+    },
+    {
+      "id": "ps_013",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Use perspective warp to fix distortion",
+      "search_query": "how to use perspective warp fix distortion Photoshop tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ps_014",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Create actions for batch processing photos",
+      "search_query": "how to create actions batch process photos Photoshop tutorial",
+      "expected_steps": "6-10",
+      "difficulty": "hard",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "ps_015",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Resize and export image for web",
+      "search_query": "how to resize export image for web Photoshop tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type", "keyboard_shortcut"]
+    },
+    {
+      "id": "ps_016",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Use quick selection and refine edge",
+      "search_query": "how to use quick selection refine edge Photoshop tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ps_017",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Add and edit smart objects",
+      "search_query": "how to use smart objects Photoshop tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click", "double_click"]
+    },
+    {
+      "id": "ps_018",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Create a photo collage layout",
+      "search_query": "how to create photo collage layout Photoshop tutorial",
+      "expected_steps": "6-12",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "type"]
+    },
+    {
+      "id": "ps_019",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Use dodge and burn for light and shadow",
+      "search_query": "how to dodge and burn Photoshop tutorial",
+      "expected_steps": "4-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ps_020",
+      "domain": "photoshop",
+      "software": "Adobe Photoshop",
+      "task": "Convert image to black and white with selective color",
+      "search_query": "how to selective color black and white Photoshop tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+
+    {
+      "id": "ai_001",
+      "domain": "illustrator",
+      "software": "Adobe Illustrator",
+      "task": "Create a vector logo from scratch",
+      "search_query": "how to create vector logo from scratch Illustrator tutorial",
+      "expected_steps": "8-15",
+      "difficulty": "hard",
+      "action_types": ["click", "drag", "type"]
+    },
+    {
+      "id": "ai_002",
+      "domain": "illustrator",
+      "software": "Adobe Illustrator",
+      "task": "Use pen tool to trace an image",
+      "search_query": "how to use pen tool trace image Illustrator tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "hard",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ai_003",
+      "domain": "illustrator",
+      "software": "Adobe Illustrator",
+      "task": "Create a gradient mesh on an object",
+      "search_query": "how to create gradient mesh Illustrator tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "hard",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ai_004",
+      "domain": "illustrator",
+      "software": "Adobe Illustrator",
+      "task": "Use pathfinder to combine and cut shapes",
+      "search_query": "how to use pathfinder combine shapes Illustrator tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "keyboard_shortcut"]
+    },
+    {
+      "id": "ai_005",
+      "domain": "illustrator",
+      "software": "Adobe Illustrator",
+      "task": "Create a pattern swatch",
+      "search_query": "how to create pattern swatch Illustrator tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "type"]
+    },
+    {
+      "id": "ai_006",
+      "domain": "illustrator",
+      "software": "Adobe Illustrator",
+      "task": "Use image trace to vectorize a photo",
+      "search_query": "how to image trace vectorize photo Illustrator tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "ai_007",
+      "domain": "illustrator",
+      "software": "Adobe Illustrator",
+      "task": "Create a 3D text effect",
+      "search_query": "how to create 3D text effect Illustrator tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type", "drag"]
+    },
+    {
+      "id": "ai_008",
+      "domain": "illustrator",
+      "software": "Adobe Illustrator",
+      "task": "Create and apply custom brushes",
+      "search_query": "how to create custom brush Illustrator tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "type"]
+    },
+    {
+      "id": "ai_009",
+      "domain": "illustrator",
+      "software": "Adobe Illustrator",
+      "task": "Set up artboards for multiple designs",
+      "search_query": "how to set up multiple artboards Illustrator tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "drag", "type"]
+    },
+    {
+      "id": "ai_010",
+      "domain": "illustrator",
+      "software": "Adobe Illustrator",
+      "task": "Use the blend tool for smooth transitions",
+      "search_query": "how to use blend tool Illustrator tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+
+    {
+      "id": "pr_001",
+      "domain": "premiere_pro",
+      "software": "Adobe Premiere Pro",
+      "task": "Cut and trim clips on the timeline",
+      "search_query": "how to cut trim clips timeline Premiere Pro tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "easy",
+      "action_types": ["click", "drag", "keyboard_shortcut"]
+    },
+    {
+      "id": "pr_002",
+      "domain": "premiere_pro",
+      "software": "Adobe Premiere Pro",
+      "task": "Add text titles and lower thirds",
+      "search_query": "how to add text title lower third Premiere Pro tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type", "drag"]
+    },
+    {
+      "id": "pr_003",
+      "domain": "premiere_pro",
+      "software": "Adobe Premiere Pro",
+      "task": "Color grade footage with Lumetri",
+      "search_query": "how to color grade Lumetri Premiere Pro tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "pr_004",
+      "domain": "premiere_pro",
+      "software": "Adobe Premiere Pro",
+      "task": "Add transitions between clips",
+      "search_query": "how to add video transitions Premiere Pro tutorial",
+      "expected_steps": "3-6",
+      "difficulty": "easy",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "pr_005",
+      "domain": "premiere_pro",
+      "software": "Adobe Premiere Pro",
+      "task": "Export video with custom settings",
+      "search_query": "how to export video custom settings Premiere Pro tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "pr_006",
+      "domain": "premiere_pro",
+      "software": "Adobe Premiere Pro",
+      "task": "Add and sync audio with video clips",
+      "search_query": "how to sync audio video clips Premiere Pro tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click", "drag"]
+    },
+    {
+      "id": "pr_007",
+      "domain": "premiere_pro",
+      "software": "Adobe Premiere Pro",
+      "task": "Create speed ramp slow motion effect",
+      "search_query": "how to speed ramp slow motion Premiere Pro tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "right_click"]
+    },
+    {
+      "id": "pr_008",
+      "domain": "premiere_pro",
+      "software": "Adobe Premiere Pro",
+      "task": "Use keyframes to animate position and scale",
+      "search_query": "how to use keyframes animate position scale Premiere Pro tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "hard",
+      "action_types": ["click", "drag", "type"]
+    },
+
+    {
+      "id": "ae_001",
+      "domain": "after_effects",
+      "software": "Adobe After Effects",
+      "task": "Create a basic motion graphics title",
+      "search_query": "how to create motion graphics title After Effects tutorial",
+      "expected_steps": "6-12",
+      "difficulty": "hard",
+      "action_types": ["click", "type", "drag"]
+    },
+    {
+      "id": "ae_002",
+      "domain": "after_effects",
+      "software": "Adobe After Effects",
+      "task": "Use keyframes to animate text",
+      "search_query": "how to animate text keyframes After Effects tutorial beginner",
+      "expected_steps": "5-10",
+      "difficulty": "medium",
+      "action_types": ["click", "type", "drag"]
+    },
+    {
+      "id": "ae_003",
+      "domain": "after_effects",
+      "software": "Adobe After Effects",
+      "task": "Track motion and attach element to footage",
+      "search_query": "how to motion track attach element After Effects tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "hard",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ae_004",
+      "domain": "after_effects",
+      "software": "Adobe After Effects",
+      "task": "Use masks to reveal or hide layers",
+      "search_query": "how to use masks reveal hide layers After Effects tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "ae_005",
+      "domain": "after_effects",
+      "software": "Adobe After Effects",
+      "task": "Create a green screen chroma key composite",
+      "search_query": "how to green screen chroma key After Effects tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+
+    {
+      "id": "chrome_001",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Manage and organize bookmarks into folders",
+      "search_query": "how to manage organize bookmarks folders Chrome tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "easy",
+      "action_types": ["click", "right_click", "type", "drag"]
+    },
+    {
+      "id": "chrome_002",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Install and manage browser extensions",
+      "search_query": "how to install manage extensions Chrome tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "chrome_003",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Clear cache cookies and browsing history",
+      "search_query": "how to clear cache cookies browsing data Chrome tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "keyboard_shortcut"]
+    },
+    {
+      "id": "chrome_004",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Use Chrome DevTools to inspect and modify webpage elements",
+      "search_query": "how to use Chrome DevTools inspect elements tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "hard",
+      "action_types": ["click", "right_click", "type", "keyboard_shortcut"]
+    },
+    {
+      "id": "chrome_005",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Set up and manage multiple user profiles",
+      "search_query": "how to create manage multiple profiles Chrome tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "chrome_006",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Change default search engine",
+      "search_query": "how to change default search engine Chrome settings tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "chrome_007",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Save and manage passwords in Chrome",
+      "search_query": "how to save manage passwords Chrome tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "chrome_008",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Use tab groups to organize tabs",
+      "search_query": "how to use tab groups organize tabs Chrome tutorial",
+      "expected_steps": "3-6",
+      "difficulty": "easy",
+      "action_types": ["click", "right_click", "drag"]
+    },
+    {
+      "id": "chrome_009",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Block notifications and pop-ups from websites",
+      "search_query": "how to block notifications pop-ups Chrome settings tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "chrome_010",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Use Developer Tools to debug JavaScript",
+      "search_query": "how to debug JavaScript Chrome DevTools console tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "hard",
+      "action_types": ["click", "type", "keyboard_shortcut"]
+    },
+    {
+      "id": "chrome_011",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Enable and configure Chrome flags for experimental features",
+      "search_query": "how to enable Chrome flags experimental features tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "chrome_012",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Export and import bookmarks",
+      "search_query": "how to export import bookmarks Chrome tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "chrome_013",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Use Chrome Remote Desktop",
+      "search_query": "how to set up Chrome Remote Desktop tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "chrome_014",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Take full page screenshot with DevTools",
+      "search_query": "how to take full page screenshot Chrome DevTools tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click", "keyboard_shortcut"]
+    },
+    {
+      "id": "chrome_015",
+      "domain": "web_browser_chrome",
+      "software": "Google Chrome",
+      "task": "Set up proxy or VPN extension in Chrome",
+      "search_query": "how to set up proxy extension Chrome tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+
+    {
+      "id": "firefox_001",
+      "domain": "web_browser_firefox",
+      "software": "Mozilla Firefox",
+      "task": "Customize toolbar and layout",
+      "search_query": "how to customize toolbar layout Firefox tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "firefox_002",
+      "domain": "web_browser_firefox",
+      "software": "Mozilla Firefox",
+      "task": "Configure enhanced tracking protection and privacy settings",
+      "search_query": "how to configure privacy tracking protection Firefox tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click"]
+    },
+    {
+      "id": "firefox_003",
+      "domain": "web_browser_firefox",
+      "software": "Mozilla Firefox",
+      "task": "Use Firefox containers for multi-account browsing",
+      "search_query": "how to use Firefox containers multi account tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click"]
+    },
+    {
+      "id": "firefox_004",
+      "domain": "web_browser_firefox",
+      "software": "Mozilla Firefox",
+      "task": "Manage add-ons and extensions",
+      "search_query": "how to manage add-ons extensions Firefox tutorial",
+      "expected_steps": "3-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "firefox_005",
+      "domain": "web_browser_firefox",
+      "software": "Mozilla Firefox",
+      "task": "Use Firefox Developer Tools to edit CSS",
+      "search_query": "how to edit CSS Firefox Developer Tools tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type", "keyboard_shortcut"]
+    },
+
+    {
+      "id": "acad_001",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Draw a floor plan with walls and doors",
+      "search_query": "how to draw floor plan walls doors AutoCAD tutorial",
+      "expected_steps": "8-15",
+      "difficulty": "hard",
+      "action_types": ["click", "type", "drag"]
+    },
+    {
+      "id": "acad_002",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Add dimensions and annotations",
+      "search_query": "how to add dimensions annotations AutoCAD tutorial",
+      "expected_steps": "4-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "acad_003",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Use layers to organize drawing elements",
+      "search_query": "how to use layers organize elements AutoCAD tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type", "right_click"]
+    },
+    {
+      "id": "acad_004",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Create and insert blocks for reusable components",
+      "search_query": "how to create insert blocks AutoCAD tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "acad_005",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Use hatch patterns to fill areas",
+      "search_query": "how to use hatch patterns fill area AutoCAD tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "acad_006",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Set up paper space and layout for printing",
+      "search_query": "how to set up paper space layout printing AutoCAD tutorial",
+      "expected_steps": "6-10",
+      "difficulty": "hard",
+      "action_types": ["click", "type", "double_click"]
+    },
+    {
+      "id": "acad_007",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Use trim and extend commands",
+      "search_query": "how to use trim extend commands AutoCAD tutorial",
+      "expected_steps": "3-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "acad_008",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Create a polyline and convert to spline",
+      "search_query": "how to draw polyline spline AutoCAD tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "acad_009",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Use array to create repeating patterns",
+      "search_query": "how to use array command repeating pattern AutoCAD tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "acad_010",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Import and reference external DWG files",
+      "search_query": "how to import reference external xref DWG AutoCAD tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "acad_011",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Export drawing to PDF with custom settings",
+      "search_query": "how to export print to PDF AutoCAD tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "acad_012",
+      "domain": "cad_autocad",
+      "software": "AutoCAD",
+      "task": "Use offset command to create parallel lines",
+      "search_query": "how to use offset command parallel lines AutoCAD tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+
+    {
+      "id": "f360_001",
+      "domain": "cad_fusion360",
+      "software": "Fusion 360",
+      "task": "Create a 3D model using sketch and extrude",
+      "search_query": "how to sketch extrude 3D model Fusion 360 tutorial beginner",
+      "expected_steps": "5-10",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "type"]
+    },
+    {
+      "id": "f360_002",
+      "domain": "cad_fusion360",
+      "software": "Fusion 360",
+      "task": "Use fillet and chamfer on edges",
+      "search_query": "how to fillet chamfer edges Fusion 360 tutorial",
+      "expected_steps": "3-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "f360_003",
+      "domain": "cad_fusion360",
+      "software": "Fusion 360",
+      "task": "Create a revolve feature for cylindrical parts",
+      "search_query": "how to revolve feature cylindrical part Fusion 360 tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "type"]
+    },
+    {
+      "id": "f360_004",
+      "domain": "cad_fusion360",
+      "software": "Fusion 360",
+      "task": "Assemble components with joints",
+      "search_query": "how to assemble components joints Fusion 360 tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "hard",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "f360_005",
+      "domain": "cad_fusion360",
+      "software": "Fusion 360",
+      "task": "Create a 2D engineering drawing from 3D model",
+      "search_query": "how to create 2D drawing from 3D model Fusion 360 tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "f360_006",
+      "domain": "cad_fusion360",
+      "software": "Fusion 360",
+      "task": "Use pattern feature for circular and rectangular arrays",
+      "search_query": "how to use pattern feature circular rectangular Fusion 360 tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "f360_007",
+      "domain": "cad_fusion360",
+      "software": "Fusion 360",
+      "task": "Create a thread on a cylindrical surface",
+      "search_query": "how to create thread Fusion 360 tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "f360_008",
+      "domain": "cad_fusion360",
+      "software": "Fusion 360",
+      "task": "Export STL file for 3D printing",
+      "search_query": "how to export STL 3D printing Fusion 360 tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click", "right_click"]
+    },
+
+    {
+      "id": "vsc_001",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Set up Python environment and run first script",
+      "search_query": "how to set up Python run script VS Code tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type", "keyboard_shortcut"]
+    },
+    {
+      "id": "vsc_002",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Use debugger with breakpoints",
+      "search_query": "how to use debugger breakpoints VS Code tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "medium",
+      "action_types": ["click", "keyboard_shortcut"]
+    },
+    {
+      "id": "vsc_003",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Install extensions and configure settings",
+      "search_query": "how to install extensions configure settings VS Code tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "vsc_004",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Use Git source control integration",
+      "search_query": "how to use Git source control VS Code tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "medium",
+      "action_types": ["click", "type", "keyboard_shortcut"]
+    },
+    {
+      "id": "vsc_005",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Use multi-cursor editing and find replace",
+      "search_query": "how to multi cursor editing find replace VS Code tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "keyboard_shortcut", "type"]
+    },
+    {
+      "id": "vsc_006",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Set up and use integrated terminal",
+      "search_query": "how to use integrated terminal VS Code tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click", "type", "keyboard_shortcut"]
+    },
+    {
+      "id": "vsc_007",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Configure launch.json for debugging",
+      "search_query": "how to configure launch.json debug VS Code tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "hard",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "vsc_008",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Use snippets and Emmet for fast coding",
+      "search_query": "how to use code snippets Emmet VS Code tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["type", "keyboard_shortcut"]
+    },
+    {
+      "id": "vsc_009",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Use split editor and side-by-side file comparison",
+      "search_query": "how to split editor compare files side by side VS Code tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click", "keyboard_shortcut", "drag"]
+    },
+    {
+      "id": "vsc_010",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Use Live Server extension for web development",
+      "search_query": "how to use Live Server extension VS Code web development tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "vsc_011",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Refactor code with rename symbol and extract function",
+      "search_query": "how to refactor rename symbol extract function VS Code tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click", "type", "keyboard_shortcut"]
+    },
+    {
+      "id": "vsc_012",
+      "domain": "ide_vscode",
+      "software": "Visual Studio Code",
+      "task": "Use Remote SSH to connect to a remote server",
+      "search_query": "how to use Remote SSH connect server VS Code tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "hard",
+      "action_types": ["click", "type"]
+    },
+
+    {
+      "id": "pyc_001",
+      "domain": "ide_pycharm",
+      "software": "PyCharm",
+      "task": "Set up virtual environment and install packages",
+      "search_query": "how to set up virtual environment install packages PyCharm tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "pyc_002",
+      "domain": "ide_pycharm",
+      "software": "PyCharm",
+      "task": "Use debugger with breakpoints and watches",
+      "search_query": "how to debug breakpoints watches PyCharm tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "medium",
+      "action_types": ["click", "keyboard_shortcut"]
+    },
+    {
+      "id": "pyc_003",
+      "domain": "ide_pycharm",
+      "software": "PyCharm",
+      "task": "Run and configure unit tests",
+      "search_query": "how to run configure unit tests PyCharm tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click", "type"]
+    },
+    {
+      "id": "pyc_004",
+      "domain": "ide_pycharm",
+      "software": "PyCharm",
+      "task": "Use database tools to connect and query",
+      "search_query": "how to use database tools connect query PyCharm tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "pyc_005",
+      "domain": "ide_pycharm",
+      "software": "PyCharm",
+      "task": "Configure code style and linting settings",
+      "search_query": "how to configure code style linting PyCharm tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+
+    {
+      "id": "win_001",
+      "domain": "os_windows",
+      "software": "Windows 11",
+      "task": "Partition a hard drive using Disk Management",
+      "search_query": "how to partition hard drive Disk Management Windows 11 tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click", "type"]
+    },
+    {
+      "id": "win_002",
+      "domain": "os_windows",
+      "software": "Windows 11",
+      "task": "Set up dual monitor display",
+      "search_query": "how to set up dual monitor display Windows 11 tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "right_click", "drag"]
+    },
+    {
+      "id": "win_003",
+      "domain": "os_windows",
+      "software": "Windows 11",
+      "task": "Configure Windows Defender firewall rules",
+      "search_query": "how to configure Windows Defender firewall rules Windows 11 tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "hard",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "win_004",
+      "domain": "os_windows",
+      "software": "Windows 11",
+      "task": "Create a scheduled task in Task Scheduler",
+      "search_query": "how to create scheduled task Task Scheduler Windows tutorial",
+      "expected_steps": "6-10",
+      "difficulty": "hard",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "win_005",
+      "domain": "os_windows",
+      "software": "Windows 11",
+      "task": "Change default applications for file types",
+      "search_query": "how to change default apps file types Windows 11 tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "win_006",
+      "domain": "os_windows",
+      "software": "Windows 11",
+      "task": "Set up network sharing between two computers",
+      "search_query": "how to set up network file sharing Windows 11 tutorial",
+      "expected_steps": "6-10",
+      "difficulty": "hard",
+      "action_types": ["click", "right_click", "type"]
+    },
+    {
+      "id": "win_007",
+      "domain": "os_windows",
+      "software": "Windows 11",
+      "task": "Create a system restore point",
+      "search_query": "how to create system restore point Windows 11 tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "win_008",
+      "domain": "os_windows",
+      "software": "Windows 11",
+      "task": "Use Snap Layouts to arrange windows",
+      "search_query": "how to use Snap Layouts arrange windows Windows 11 tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click", "drag", "hover"]
+    },
+    {
+      "id": "win_009",
+      "domain": "os_windows",
+      "software": "Windows 11",
+      "task": "Manage startup programs to improve boot speed",
+      "search_query": "how to manage startup programs disable Windows 11 tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click", "right_click"]
+    },
+    {
+      "id": "win_010",
+      "domain": "os_windows",
+      "software": "Windows 10/11",
+      "task": "Set up and configure virtual desktops",
+      "search_query": "how to set up virtual desktops Windows 11 tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click", "keyboard_shortcut"]
+    },
+    {
+      "id": "win_011",
+      "domain": "os_windows",
+      "software": "Windows 11",
+      "task": "Map a network drive",
+      "search_query": "how to map network drive Windows 11 tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "medium",
+      "action_types": ["click", "right_click", "type"]
+    },
+    {
+      "id": "win_012",
+      "domain": "os_windows",
+      "software": "Windows 11",
+      "task": "Use Environment Variables to set system PATH",
+      "search_query": "how to set environment variables PATH Windows 11 tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+
+    {
+      "id": "mac_001",
+      "domain": "os_macos",
+      "software": "macOS",
+      "task": "Set up Time Machine backup",
+      "search_query": "how to set up Time Machine backup macOS tutorial",
+      "expected_steps": "4-6",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "mac_002",
+      "domain": "os_macos",
+      "software": "macOS",
+      "task": "Use Automator to create a workflow",
+      "search_query": "how to use Automator create workflow macOS tutorial",
+      "expected_steps": "5-10",
+      "difficulty": "hard",
+      "action_types": ["click", "drag", "type"]
+    },
+    {
+      "id": "mac_003",
+      "domain": "os_macos",
+      "software": "macOS",
+      "task": "Configure hot corners for quick actions",
+      "search_query": "how to configure hot corners macOS tutorial",
+      "expected_steps": "3-5",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "mac_004",
+      "domain": "os_macos",
+      "software": "macOS",
+      "task": "Manage storage and optimize disk space",
+      "search_query": "how to manage storage optimize disk space macOS tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "mac_005",
+      "domain": "os_macos",
+      "software": "macOS",
+      "task": "Set up and use Mission Control and Spaces",
+      "search_query": "how to use Mission Control Spaces macOS tutorial",
+      "expected_steps": "3-6",
+      "difficulty": "easy",
+      "action_types": ["click", "drag", "keyboard_shortcut"]
+    },
+    {
+      "id": "mac_006",
+      "domain": "os_macos",
+      "software": "macOS",
+      "task": "Configure System Preferences accessibility features",
+      "search_query": "how to configure accessibility features macOS tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "easy",
+      "action_types": ["click"]
+    },
+    {
+      "id": "mac_007",
+      "domain": "os_macos",
+      "software": "macOS",
+      "task": "Use Terminal to install Homebrew and packages",
+      "search_query": "how to install Homebrew packages macOS Terminal tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "type"]
+    },
+    {
+      "id": "mac_008",
+      "domain": "os_macos",
+      "software": "macOS",
+      "task": "Set up multiple displays and arrangement",
+      "search_query": "how to set up multiple displays arrangement macOS tutorial",
+      "expected_steps": "3-6",
+      "difficulty": "easy",
+      "action_types": ["click", "drag"]
+    },
+
+    {
+      "id": "blender_001",
+      "domain": "blender",
+      "software": "Blender",
+      "task": "Model a simple 3D object from a primitive",
+      "search_query": "how to model 3D object from primitive Blender tutorial beginner",
+      "expected_steps": "5-10",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "keyboard_shortcut", "type"]
+    },
+    {
+      "id": "blender_002",
+      "domain": "blender",
+      "software": "Blender",
+      "task": "Apply materials and textures to a model",
+      "search_query": "how to apply materials textures Blender tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag"]
+    },
+    {
+      "id": "blender_003",
+      "domain": "blender",
+      "software": "Blender",
+      "task": "Set up lighting and render a scene",
+      "search_query": "how to set up lighting render scene Blender tutorial",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "type"]
+    },
+    {
+      "id": "blender_004",
+      "domain": "blender",
+      "software": "Blender",
+      "task": "Create a basic keyframe animation",
+      "search_query": "how to create keyframe animation Blender tutorial beginner",
+      "expected_steps": "5-8",
+      "difficulty": "medium",
+      "action_types": ["click", "drag", "keyboard_shortcut"]
+    },
+    {
+      "id": "blender_005",
+      "domain": "blender",
+      "software": "Blender",
+      "task": "Use modifiers like subdivide and mirror",
+      "search_query": "how to use modifiers subdivide mirror Blender tutorial",
+      "expected_steps": "4-7",
+      "difficulty": "medium",
+      "action_types": ["click", "keyboard_shortcut"]
+    }
+  ]
+}
