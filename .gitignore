@@ -1,6 +1,7 @@
 # Data directories (large datasets)
 MONDAY/
 MONDAY_LARGE/
+desktop_pipeline/videos/
 
 # Log and evaluation outputs
 logs/

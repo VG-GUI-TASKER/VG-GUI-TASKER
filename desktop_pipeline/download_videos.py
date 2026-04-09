@@ -173,43 +173,69 @@ def generate_query_variants(base_query: str, domain: str) -> list[str]:
 # ============================================================
 
 def search_videos(query: str, proxy: Optional[str] = None,
-                  max_results: int = SEARCH_COUNT) -> list[dict]:
+                  max_results: int = SEARCH_COUNT,
+                  max_retries: int = 3, base_delay: int = 30) -> list[dict]:
     """
     用 yt-dlp 搜索 YouTube 视频，返回完整 info dict 列表（含时长、观看数等）。
     不使用 --flat-playlist，直接获取完整元数据，避免二次请求被拦截。
+
+    带重试和指数退避：遇到超时/失败时等待 base_delay * 2^attempt 秒后重试。
     """
     cmd = [
         "yt-dlp",
         "--dump-json",
         "--no-download",
+        "--socket-timeout", "30",
+        "--retries", "5",
+        "--retry-sleep", "5",
         f"ytsearch{max_results}:{query}",
     ]
     if proxy:
         cmd.extend(["--proxy", proxy])
 
-    try:
-        result = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=300
-        )
-        if result.returncode != 0:
-            logging.warning(f"yt-dlp search failed for query: {query}")
-            logging.warning(f"stderr: {result.stderr[:500]}")
+    for attempt in range(max_retries):
+        try:
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=300
+            )
+            if result.returncode != 0:
+                stderr_snippet = result.stderr[:500]
+                # 检测是否为网络超时类错误，值得重试
+                if any(kw in stderr_snippet for kw in ["timed out", "Read timed out", "Connection reset",
+                                                        "HTTPSConnectionPool", "urlopen error"]):
+                    delay = base_delay * (2 ** attempt)
+                    logging.warning(f"yt-dlp network error (attempt {attempt+1}/{max_retries}), "
+                                    f"retrying in {delay}s... query: {query}")
+                    logging.warning(f"stderr: {stderr_snippet}")
+                    time.sleep(delay)
+                    continue
+                else:
+                    # 非网络错误，不重试
+                    logging.warning(f"yt-dlp search failed for query: {query}")
+                    logging.warning(f"stderr: {stderr_snippet}")
+                    return []
+
+            entries = []
+            for line in result.stdout.strip().split("\n"):
+                if line.strip():
+                    try:
+                        entries.append(json.loads(line))
+                    except json.JSONDecodeError:
+                        continue
+            return entries
+
+        except subprocess.TimeoutExpired:
+            delay = base_delay * (2 ** attempt)
+            logging.warning(f"yt-dlp search timeout (attempt {attempt+1}/{max_retries}), "
+                            f"retrying in {delay}s... query: {query}")
+            time.sleep(delay)
+            continue
+        except Exception as e:
+            logging.warning(f"yt-dlp search error for query: {query}: {e}")
             return []
 
-        entries = []
-        for line in result.stdout.strip().split("\n"):
-            if line.strip():
-                try:
-                    entries.append(json.loads(line))
-                except json.JSONDecodeError:
-                    continue
-        return entries
-    except subprocess.TimeoutExpired:
-        logging.warning(f"yt-dlp search timeout for query: {query}")
-        return []
-    except Exception as e:
-        logging.warning(f"yt-dlp search error for query: {query}: {e}")
-        return []
+    logging.error(f"yt-dlp search exhausted all {max_retries} retries for query: {query}")
+    return []
 
 
 def filter_video(info: dict) -> tuple[bool, str]:
@@ -250,6 +276,7 @@ def filter_video(info: dict) -> tuple[bool, str]:
 def download_video(video_id: str, output_dir: str, proxy: Optional[str] = None) -> bool:
     """
     下载单个视频（含字幕和 info json）。
+    即使 yt-dlp returncode != 0（比如只有 warning），只要磁盘上有视频文件就算成功。
     """
     url = f"https://www.youtube.com/watch?v={video_id}"
     output_template = os.path.join(output_dir, "%(id)s.%(ext)s")
@@ -263,6 +290,7 @@ def download_video(video_id: str, output_dir: str, proxy: Optional[str] = None) 
         "--sub-lang", "en",
         "--convert-subs", "srt",
         "--no-overwrites",
+        "--remote-components", "ejs:github",
         "-o", output_template,
         url,
     ]
@@ -271,9 +299,20 @@ def download_video(video_id: str, output_dir: str, proxy: Optional[str] = None) 
 
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+
+        # 检查磁盘上是否有该视频的文件（mp4 或 webm）
+        has_video = any(
+            f.startswith(video_id) and f.endswith((".mp4", ".webm", ".mkv"))
+            for f in os.listdir(output_dir)
+        )
+
         if result.returncode != 0:
-            logging.warning(f"Download failed for {video_id}: {result.stderr[:500]}")
-            return False
+            if has_video:
+                logging.warning(f"yt-dlp returned warnings for {video_id}, but video file exists on disk. Treating as success.")
+                return True
+            else:
+                logging.warning(f"Download failed for {video_id}: {result.stderr[:500]}")
+                return False
         return True
     except subprocess.TimeoutExpired:
         logging.warning(f"Download timeout for {video_id}")
@@ -296,20 +335,35 @@ class ProgressTracker:
 
     def _load(self) -> dict:
         if os.path.exists(self.progress_file):
-            with open(self.progress_file, "r") as f:
-                return json.load(f)
+            try:
+                with open(self.progress_file, "r") as f:
+                    return json.load(f)
+            except (json.JSONDecodeError, ValueError) as e:
+                # progress.json 损坏，备份后重新开始
+                backup = self.progress_file + f".corrupt.{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                os.rename(self.progress_file, backup)
+                logging.warning(f"progress.json is corrupted: {e}")
+                logging.warning(f"Backed up to: {backup}")
+                logging.warning("Starting fresh. Already-downloaded video files are still on disk.")
         return {
             "started_at": datetime.now().isoformat(),
-            "tasks_completed": {},  # task_id -> {videos: [...], status: "done"/"partial"}
-            "tasks_failed": {},     # task_id -> reason
+            "tasks_completed": {},
+            "tasks_failed": {},
             "total_downloaded": 0,
             "total_filtered_out": 0,
             "total_searched": 0,
         }
 
     def save(self):
-        with open(self.progress_file, "w") as f:
+        # 原子写入：先写临时文件再 rename，防止写到一半崩溃导致 JSON 损坏
+        tmp_path = self.progress_file + ".tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
             json.dump(self.data, f, indent=2, ensure_ascii=False)
+        # Windows 上 rename 不能覆盖已有文件，需要先删
+        if os.path.exists(self.progress_file):
+            os.replace(tmp_path, self.progress_file)
+        else:
+            os.rename(tmp_path, self.progress_file)
 
     def is_task_done(self, task_id: str) -> bool:
         return task_id in self.data["tasks_completed"]
@@ -386,7 +440,7 @@ def process_task(task: dict, output_base: str, proxy: Optional[str],
                 seen_ids.add(vid)
                 candidates.append(entry)
 
-        time.sleep(1)  # 搜索间的短暂延迟
+        time.sleep(3)  # 搜索间延迟，避免触发 YouTube 限速
 
     logging.info(f"  Found {len(candidates)} unique candidates from {len(variants)} query variants")
 
