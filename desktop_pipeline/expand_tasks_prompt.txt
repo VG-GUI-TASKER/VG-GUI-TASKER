@@ -1,0 +1,297 @@
+# Task: Rewrite GUI benchmark task descriptions
+
+## Background
+
+I am building **VG-GUI-Bench**, a video-guided GUI benchmark designed to evaluate Vision-Language Models (VLMs) on their ability to complete long-horizon desktop software tasks by following instructional tutorial videos. Each benchmark item consists of:
+- A tutorial video demonstrating a software workflow
+- A task description that will be given to the VLM as its goal
+- A sequence of GUI actions the model must perform to accomplish the task
+
+The task descriptions are currently written as brief phrases (some in Chinese). I need each one rewritten as a **clear, natural English question** in the form:
+
+> How to use [software name] to [specific action/goal]?
+
+## Requirements
+
+1. **Language**: All output must be in English.
+2. **Format**: Each task must be a complete question: `How to use [software] to [action]?`
+3. **Specificity**: Be specific enough that a user could search for this exact tutorial on YouTube and find the right video. Avoid generic phrasing.
+4. **Scope**: The task should describe a single, focused workflow — not a full course.
+5. **Tone**: Neutral, instructional.
+6. **Key prefix**: Keep the `[category/number]` prefix exactly as-is at the start of each line so I can parse the output back.
+
+## Output format
+
+Return ONLY the rewritten list, one entry per line, like this:
+```
+[after_effects/01] How to use Adobe After Effects to create a motion graphics title animation from scratch?
+[after_effects/02] ...
+```
+
+Do NOT include any explanation, commentary, or markdown outside the code block.
+
+## Task list (261 items)
+
+```
+[after_effects/01] (Adobe After Effects) Create a basic motion graphics title
+[after_effects/02] (Adobe After Effects) Use keyframes to animate text
+[after_effects/03] (Adobe After Effects) Track motion and attach element to footage
+[after_effects/04] (Adobe After Effects) Use masks to reveal or hide layers
+[after_effects/05] (Adobe After Effects) Create a green screen chroma key composite
+[after_effects/06] (Adobe After Effects) 形状图层+表达式下方字幕条
+[after_effects/07] (Adobe After Effects) 粒子效果(CC Particle World)
+[after_effects/08] (Adobe After Effects) 数据可视化信息图动画
+[after_effects/09] (Adobe After Effects) 3D摄像机漫游动画
+[after_effects/10] (Adobe After Effects) 故障/失真文字效果
+[blender/01] (Blender) Model a simple 3D object from a primitive
+[blender/02] (Blender) Apply materials and textures to a model
+[blender/03] (Blender) Set up lighting and render a scene
+[blender/04] (Blender) Create a basic keyframe animation
+[blender/05] (Blender) Use modifiers like subdivide and mirror
+[blender/06] (Blender) 低多边形角色完整建模
+[blender/07] (Blender) Shader编辑器程序化材质
+[blender/08] (Blender) UV展开+纹理绘制
+[blender/09] (Blender) 骨骼绑定+权重绘制
+[blender/10] (Blender) 流体模拟
+[blender/11] (Blender) 粒子系统(毛发/草地)
+[blender/12] (Blender) Geometry Nodes程序化建模
+[blender/13] (Blender) 雕刻模式人脸
+[blender/14] (Blender) 建筑外观可视化渲染
+[blender/15] (Blender) 布料模拟
+[cad_autocad/01] (AutoCAD) Draw a floor plan with walls and doors
+[cad_autocad/02] (AutoCAD) Add dimensions and annotations
+[cad_autocad/03] (AutoCAD) Use layers to organize drawing elements
+[cad_autocad/04] (AutoCAD) Create and insert blocks for reusable components
+[cad_autocad/05] (AutoCAD) Use hatch patterns to fill areas
+[cad_autocad/06] (AutoCAD) Set up paper space and layout for printing
+[cad_autocad/07] (AutoCAD) Use trim and extend commands
+[cad_autocad/08] (AutoCAD) Create a polyline and convert to spline
+[cad_autocad/09] (AutoCAD) Use array to create repeating patterns
+[cad_autocad/10] (AutoCAD) Import and reference external DWG files
+[cad_autocad/11] (AutoCAD) Export drawing to PDF with custom settings
+[cad_autocad/12] (AutoCAD) Use offset command to create parallel lines
+[cad_autocad/13] (AutoCAD) 动态块(参数+动作)
+[cad_autocad/14] (AutoCAD) 2D转3D模型(拉伸+旋转)
+[cad_autocad/15] (AutoCAD) 打印样式+页面设置
+[cad_autocad/16] (AutoCAD) 剖面图+填充
+[cad_autocad/17] (AutoCAD) 修剪和延伸命令
+[cad_autocad/18] (AutoCAD) 偏移命令创建平行线
+[cad_fusion360/01] (Autodesk Fusion 360) Create a 3D model using sketch and extrude
+[cad_fusion360/02] (Autodesk Fusion 360) Use fillet and chamfer on edges
+[cad_fusion360/03] (Autodesk Fusion 360) Create a revolve feature for cylindrical parts
+[cad_fusion360/04] (Autodesk Fusion 360) Assemble components with joints
+[cad_fusion360/05] (Autodesk Fusion 360) Create a 2D engineering drawing from 3D model
+[cad_fusion360/06] (Autodesk Fusion 360) Use pattern feature for circular and rectangular arrays
+[cad_fusion360/07] (Autodesk Fusion 360) Create a thread on a cylindrical surface
+[cad_fusion360/08] (Autodesk Fusion 360) Export STL file for 3D printing
+[cad_fusion360/09] (Autodesk Fusion 360) 放样(不同截面)
+[cad_fusion360/10] (Autodesk Fusion 360) 应力仿真分析
+[cad_fusion360/11] (Autodesk Fusion 360) CAM刀具路径CNC加工
+[cad_solidworks/01] (SolidWorks) 草图拉伸切除建模
+[cad_solidworks/02] (SolidWorks) 装配体(配合约束)
+[cad_solidworks/03] (SolidWorks) 工程图+BOM表
+[cad_solidworks/04] (SolidWorks) 扫描/放样复杂形状
+[cad_solidworks/05] (SolidWorks) 焊件结构件
+[cad_solidworks/06] (SolidWorks) 运动仿真动画
+[cad_solidworks/07] (SolidWorks) 外观渲染出图
+[figma/01] (Figma) 设计系统组件库
+[figma/02] (Figma) Auto Layout自适应布局
+[figma/03] (Figma) 完整网页原型+交互动画
+[figma/04] (Figma) 创建和使用变量(Variables)
+[figma/05] (Figma) 移动App UI完整设计
+[figma/06] (Figma) 高保真原型+条件逻辑交互
+[figma/07] (Figma) 设计Token+样式管理
+[figma/08] (Figma) 导出切图和开发交付
+[ide_intellij/01] (IntelliJ IDEA) Spring Boot项目搭建
+[ide_intellij/02] (IntelliJ IDEA) 重构(提取方法+内联变量)
+[ide_intellij/03] (IntelliJ IDEA) Maven/Gradle构建运行测试
+[ide_intellij/04] (IntelliJ IDEA) 数据库工具可视化查询
+[ide_pycharm/01] (PyCharm) Set up virtual environment and install packages
+[ide_pycharm/02] (PyCharm) Use debugger with breakpoints and watches
+[ide_pycharm/03] (PyCharm) Run and configure unit tests
+[ide_pycharm/04] (PyCharm) Use database tools to connect and query
+[ide_pycharm/05] (PyCharm) Configure code style and linting settings
+[ide_pycharm/06] (PyCharm) SSH远程解释器开发
+[ide_vscode/01] (Visual Studio Code) Set up Python environment and run first script
+[ide_vscode/02] (Visual Studio Code) Use debugger with breakpoints
+[ide_vscode/03] (Visual Studio Code) Install extensions and configure settings
+[ide_vscode/04] (Visual Studio Code) Use Git source control integration
+[ide_vscode/05] (Visual Studio Code) Use multi-cursor editing and find replace
+[ide_vscode/06] (Visual Studio Code) Set up and use integrated terminal
+[ide_vscode/07] (Visual Studio Code) Configure launch.json for debugging
+[ide_vscode/08] (Visual Studio Code) Use snippets and Emmet for fast coding
+[ide_vscode/09] (Visual Studio Code) Use split editor and side-by-side file comparison
+[ide_vscode/10] (Visual Studio Code) Use Live Server extension for web development
+[ide_vscode/11] (Visual Studio Code) Refactor code with rename symbol and extract function
+[ide_vscode/12] (Visual Studio Code) Use Remote SSH to connect to a remote server
+[ide_vscode/13] (Visual Studio Code) REST Client测试API
+[ide_vscode/14] (Visual Studio Code) tasks.json构建自动化
+[ide_vscode/15] (Visual Studio Code) Live Server做Web开发
+[ide_vscode/16] (Visual Studio Code) 分屏编辑和文件对比
+[illustrator/01] (Adobe Illustrator) Create a vector logo from scratch
+[illustrator/02] (Adobe Illustrator) Use pen tool to trace an image
+[illustrator/03] (Adobe Illustrator) Create a gradient mesh on an object
+[illustrator/04] (Adobe Illustrator) Use pathfinder to combine and cut shapes
+[illustrator/05] (Adobe Illustrator) Create a pattern swatch
+[illustrator/06] (Adobe Illustrator) Use image trace to vectorize a photo
+[illustrator/07] (Adobe Illustrator) Create a 3D text effect
+[illustrator/08] (Adobe Illustrator) Create and apply custom brushes
+[illustrator/09] (Adobe Illustrator) Set up artboards for multiple designs
+[illustrator/10] (Adobe Illustrator) Use the blend tool for smooth transitions
+[illustrator/11] (Adobe Illustrator) 照片参考矢量肖像
+[illustrator/12] (Adobe Illustrator) 包装标签+刀版线
+[illustrator/13] (Adobe Illustrator) 手写字体排版设计
+[illustrator/14] (Adobe Illustrator) 创建和应用自定义画笔
+[office_excel/01] (Microsoft Excel) Create a pivot table from a data range
+[office_excel/02] (Microsoft Excel) Use VLOOKUP function to match data across sheets
+[office_excel/03] (Microsoft Excel) Create a chart from data and customize it
+[office_excel/04] (Microsoft Excel) Use IF and nested IF formulas
+[office_excel/05] (Microsoft Excel) Freeze panes to lock rows and columns
+[office_excel/06] (Microsoft Excel) Create a macro to automate repetitive tasks
+[office_excel/07] (Microsoft Excel) Use SUMIF and COUNTIF functions
+[office_excel/08] (Microsoft Excel) Create and format a table with headers
+[office_excel/09] (Microsoft Excel) Use INDEX MATCH as an alternative to VLOOKUP
+[office_excel/10] (Microsoft Excel) Protect worksheet and lock specific cells
+[office_excel/11] (Microsoft Excel) Remove duplicate rows from data
+[office_excel/12] (Microsoft Excel) Create a dynamic named range
+[office_excel/13] (Microsoft Excel) Use text to columns to split data
+[office_excel/14] (Microsoft Excel) Create a waterfall chart
+[office_excel/15] (Microsoft Excel) Use Goal Seek for what-if analysis
+[office_excel/16] (Microsoft Excel) Import data from CSV and clean it
+[office_excel/17] (Microsoft Excel) Create a sparkline in cells
+[office_excel/18] (Microsoft Excel) 热力图(条件格式)
+[office_excel/19] (Microsoft Excel) Power Pivot数据模型和关系
+[office_excel/20] (Microsoft Excel) 预算跟踪器(类别+图表完整)
+[office_excel/21] (Microsoft Excel) 动态数组FILTER/SORT
+[office_excel/22] (Microsoft Excel) 股票投资组合追踪
+[office_excel/23] (Microsoft Excel) 表单控件交互(复选框/微调按钮)
+[office_excel/24] (Microsoft Excel) 瀑布图
+[office_excel/25] (Microsoft Excel) 动态命名范围
+[office_excel/26] (Microsoft Excel) 完整项目跟踪看板
+[office_powerpoint/01] (Microsoft PowerPoint) Add slide transitions and animations
+[office_powerpoint/02] (Microsoft PowerPoint) Create a custom slide master and layout
+[office_powerpoint/03] (Microsoft PowerPoint) Insert and edit a SmartArt diagram
+[office_powerpoint/04] (Microsoft PowerPoint) Record a narrated slideshow
+[office_powerpoint/05] (Microsoft PowerPoint) Create motion path animation for objects
+[office_powerpoint/06] (Microsoft PowerPoint) Embed and trim a video in a slide
+[office_powerpoint/07] (Microsoft PowerPoint) Create hyperlinks and action buttons for navigation
+[office_powerpoint/08] (Microsoft PowerPoint) Use morph transition between slides
+[office_powerpoint/09] (Microsoft PowerPoint) Add and format a chart in a slide
+[office_powerpoint/10] (Microsoft PowerPoint) Export presentation as video
+[office_powerpoint/11] (Microsoft PowerPoint) Zoom非线性导航
+[office_powerpoint/12] (Microsoft PowerPoint) 数据仪表板幻灯片
+[office_powerpoint/13] (Microsoft PowerPoint) 自定义主题(字体+颜色+效果)
+[office_powerpoint/14] (Microsoft PowerPoint) 超链接和动作按钮导航
+[office_powerpoint/15] (Microsoft PowerPoint) 添加和格式化图表
+[office_word/01] (Microsoft Word) Create a table of contents from headings
+[office_word/02] (Microsoft Word) Set up mail merge with address list
+[office_word/03] (Microsoft Word) Insert and format page numbers
+[office_word/04] (Microsoft Word) Track changes and add comments for review
+[office_word/05] (Microsoft Word) Create and apply custom styles
+[office_word/06] (Microsoft Word) Insert and edit a table
+[office_word/07] (Microsoft Word) Add watermark to document
+[office_word/08] (Microsoft Word) Set different headers and footers for sections
+[office_word/09] (Microsoft Word) Use Find and Replace with formatting options
+[office_word/10] (Microsoft Word) Create a bibliography and citations
+[office_word/11] (Microsoft Word) Insert and wrap text around an image
+[office_word/12] (Microsoft Word) Create columns layout for newsletter
+[office_word/13] (Microsoft Word) Add footnotes and endnotes
+[office_word/14] (Microsoft Word) Create a fillable form with content controls
+[office_word/15] (Microsoft Word) Compare two documents side by side
+[office_word/16] (Microsoft Word) 图片插入+文字环绕
+[office_word/17] (Microsoft Word) 分栏版面布局
+[office_word/18] (Microsoft Word) SmartArt组织结构图
+[office_word/19] (Microsoft Word) 自动图表编号(Caption)
+[office_word/20] (Microsoft Word) 证书模板(装饰边框+域)
+[office_word/21] (Microsoft Word) 页码格式(不同首页)
+[office_word/22] (Microsoft Word) 保护区域模板
+[os_macos/01] (macOS) Set up Time Machine backup
+[os_macos/02] (macOS) Use Automator to create a workflow
+[os_macos/03] (macOS) Configure hot corners for quick actions
+[os_macos/04] (macOS) Manage storage and optimize disk space
+[os_macos/05] (macOS) Set up and use Mission Control and Spaces
+[os_macos/06] (macOS) Configure System Preferences accessibility features
+[os_macos/07] (macOS) Use Terminal to install Homebrew and packages
+[os_macos/08] (macOS) Set up multiple displays and arrangement
+[os_macos/09] (macOS) FileVault加密
+[os_macos/10] (macOS) 活动监视器诊断性能
+[os_macos/11] (macOS) 用户账户和权限管理
+[os_windows/01] (Windows 11) Partition a hard drive using Disk Management
+[os_windows/02] (Windows 11) Set up dual monitor display
+[os_windows/03] (Windows 11) Configure Windows Defender firewall rules
+[os_windows/04] (Windows 11) Create a scheduled task in Task Scheduler
+[os_windows/05] (Windows 11) Change default applications for file types
+[os_windows/06] (Windows 11) Set up network sharing between two computers
+[os_windows/07] (Windows 11) Create a system restore point
+[os_windows/08] (Windows 11) Use Snap Layouts to arrange windows
+[os_windows/09] (Windows 11) Manage startup programs to improve boot speed
+[os_windows/10] (Windows 11) Set up and configure virtual desktops
+[os_windows/11] (Windows 11) Map a network drive
+[os_windows/12] (Windows 11) Use Environment Variables to set system PATH
+[os_windows/13] (Windows 11) WSL2安装Linux
+[os_windows/14] (Windows 11) Hyper-V虚拟机配置
+[os_windows/15] (Windows 11) 映射网络驱动器
+[os_windows/16] (Windows 11) 虚拟桌面管理
+[os_windows/17] (Windows 11) 启动程序管理
+[photoshop/01] (Adobe Photoshop) Remove background from an image
+[photoshop/02] (Adobe Photoshop) Use layer masks to blend two images
+[photoshop/03] (Adobe Photoshop) Retouch skin and remove blemishes
+[photoshop/04] (Adobe Photoshop) Create text effect with layer styles
+[photoshop/05] (Adobe Photoshop) Use the pen tool to make precise selections
+[photoshop/06] (Adobe Photoshop) Adjust color balance and levels
+[photoshop/07] (Adobe Photoshop) Use content-aware fill to remove objects
+[photoshop/08] (Adobe Photoshop) Create a composite image with multiple layers
+[photoshop/09] (Adobe Photoshop) Apply and customize smart filters
+[photoshop/10] (Adobe Photoshop) Use clipping mask to clip image to shape
+[photoshop/11] (Adobe Photoshop) Change hair color with hue and saturation
+[photoshop/12] (Adobe Photoshop) Create a double exposure effect
+[photoshop/13] (Adobe Photoshop) Use perspective warp to fix distortion
+[photoshop/14] (Adobe Photoshop) Create actions for batch processing photos
+[photoshop/15] (Adobe Photoshop) Resize and export image for web
+[photoshop/16] (Adobe Photoshop) Use quick selection and refine edge
+[photoshop/17] (Adobe Photoshop) Add and edit smart objects
+[photoshop/18] (Adobe Photoshop) Create a photo collage layout
+[photoshop/19] (Adobe Photoshop) Use dodge and burn for light and shadow
+[photoshop/20] (Adobe Photoshop) Convert image to black and white with selective color
+[photoshop/21] (Adobe Photoshop) 社交媒体模板设计
+[photoshop/22] (Adobe Photoshop) 手动上色黑白照片
+[photoshop/23] (Adobe Photoshop) 霓虹灯文字效果
+[photoshop/24] (Adobe Photoshop) 动作批处理照片
+[photoshop/25] (Adobe Photoshop) 玻璃/水滴折射效果
+[photoshop/26] (Adobe Photoshop) 木偶变形调整姿态
+[photoshop/27] (Adobe Photoshop) 色相饱和度改变头发颜色
+[photoshop/28] (Adobe Photoshop) 从图像创建自定义画笔
+[premiere_pro/01] (Adobe Premiere Pro) Cut and trim clips on the timeline
+[premiere_pro/02] (Adobe Premiere Pro) Add text titles and lower thirds
+[premiere_pro/03] (Adobe Premiere Pro) Color grade footage with Lumetri
+[premiere_pro/04] (Adobe Premiere Pro) Add transitions between clips
+[premiere_pro/05] (Adobe Premiere Pro) Export video with custom settings
+[premiere_pro/06] (Adobe Premiere Pro) Add and sync audio with video clips
+[premiere_pro/07] (Adobe Premiere Pro) Create speed ramp slow motion effect
+[premiere_pro/08] (Adobe Premiere Pro) Use keyframes to animate position and scale
+[premiere_pro/09] (Adobe Premiere Pro) Essential Sound高级混音
+[premiere_pro/10] (Adobe Premiere Pro) 完整YouTube视频剪辑流程
+[premiere_pro/11] (Adobe Premiere Pro) 蒙版追踪效果隔离
+[premiere_pro/12] (Adobe Premiere Pro) 字幕和Caption定制
+[premiere_pro/13] (Adobe Premiere Pro) Ken Burns缩放平移效果
+[web_browser_chrome/01] (Google Chrome) Manage and organize bookmarks into folders
+[web_browser_chrome/02] (Google Chrome) Install and manage browser extensions
+[web_browser_chrome/03] (Google Chrome) Clear cache cookies and browsing history
+[web_browser_chrome/04] (Google Chrome) Use Chrome DevTools to inspect and modify webpage elements
+[web_browser_chrome/05] (Google Chrome) Set up and manage multiple user profiles
+[web_browser_chrome/06] (Google Chrome) Change default search engine
+[web_browser_chrome/07] (Google Chrome) Save and manage passwords in Chrome
+[web_browser_chrome/08] (Google Chrome) Use tab groups to organize tabs
+[web_browser_chrome/09] (Google Chrome) Block notifications and pop-ups from websites
+[web_browser_chrome/10] (Google Chrome) Use Developer Tools to debug JavaScript
+[web_browser_chrome/11] (Google Chrome) Enable and configure Chrome flags for experimental features
+[web_browser_chrome/12] (Google Chrome) Export and import bookmarks
+[web_browser_chrome/13] (Google Chrome) Use Chrome Remote Desktop
+[web_browser_chrome/14] (Google Chrome) Take full page screenshot with DevTools
+[web_browser_chrome/15] (Google Chrome) Set up proxy or VPN extension in Chrome
+[web_browser_firefox/01] (Mozilla Firefox) Customize toolbar and layout
+[web_browser_firefox/02] (Mozilla Firefox) Configure enhanced tracking protection and privacy settings
+[web_browser_firefox/03] (Mozilla Firefox) Use Firefox containers for multi-account browsing
+[web_browser_firefox/04] (Mozilla Firefox) Manage add-ons and extensions
+[web_browser_firefox/05] (Mozilla Firefox) Use Firefox Developer Tools to edit CSS
+```

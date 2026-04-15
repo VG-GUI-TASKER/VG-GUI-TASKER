@@ -2,7 +2,7 @@
 MONDAY/
 MONDAY_LARGE/
 desktop_pipeline/videos/
-
+desktop_pipeline/video_selected/
 # Log and evaluation outputs
 logs/
 
