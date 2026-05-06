@@ -75,12 +75,22 @@
     },
     {
       "name": "qwen3vl",
-      "default_begin_port": 22003,
+      "default_begin_port": 8000,
       "default_gpu_nums": 1,
       "default_model_path": "Qwen3-VL-235B-A22B-Instruct",
-      "default_api_key": "hyocr_20260105",
+      "default_api_key": "EMPTY",
       "category": "ip",
-      "entries": []
+      "entries": [
+        {
+          "key": "local",
+          "ip": ["127.0.0.1"],
+          "model_path": "Qwen3-VL-235B-A22B-Instruct",
+          "api_key": "EMPTY",
+          "gpu_nums": 1,
+          "begin_port": 8000,
+          "split": "gui_video"
+        }
+      ]
     },
     {
       "name": "glm",

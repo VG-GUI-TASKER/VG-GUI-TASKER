@@ -811,7 +811,7 @@ def main():
     if args.output_dir:
         output_dir = Path(args.output_dir)
     else:
-        output_dir = Path(__file__).parent
+        output_dir = videos_dir.parent / "VG-GUI-Bench-Selection"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     print("=" * 70)
@@ -821,22 +821,6 @@ def main():
     print(f"输出目录: {output_dir}")
     if args.domain:
         print(f"指定领域: {args.domain}")
-    print()
-
-    # 加载 tasks.json，构建 id -> task（英文任务描述）映射
-    tasks_json_path = Path(__file__).parent / "tasks.json"
-    task_name_map: dict = {}
-    if tasks_json_path.exists():
-        tasks_data = load_json(tasks_json_path)
-        if tasks_data and "tasks" in tasks_data:
-            for t in tasks_data["tasks"]:
-                tid = t.get("id")
-                tname = t.get("task")
-                if tid and tname:
-                    task_name_map[tid] = tname
-        print(f"✅ 已加载 tasks.json，共 {len(task_name_map)} 个任务名")
-    else:
-        print(f"⚠️  未找到 tasks.json: {tasks_json_path}")
     print()
 
     # 收集所有任务目录
@@ -861,9 +845,6 @@ def main():
         print(f"[{i}/{len(task_dirs)}] 处理 {domain}/{task_id}...", end=" ")
 
         result = process_task(task_dir)
-        # 用 tasks.json 里的英文任务描述覆盖
-        if result.get("task_id") in task_name_map:
-            result["task"] = task_name_map[result["task_id"]]
         results.append(result)
 
         status = result["status"]

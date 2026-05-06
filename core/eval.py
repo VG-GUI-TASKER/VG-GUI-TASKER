@@ -8,7 +8,6 @@ import numpy as np
 import re
 import math
 from collections import defaultdict
-from core import action_matching
 
 # ==========================================
 # 1. 基础配置与工具函数

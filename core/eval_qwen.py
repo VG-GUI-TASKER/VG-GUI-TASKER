@@ -1,6 +1,10 @@
 import os
 import random
-import torch
+try:
+    import torch
+    HAS_TORCH = True
+except ImportError:
+    HAS_TORCH = False
 import json
 from tqdm import tqdm
 import logging
@@ -15,6 +19,8 @@ import threading
 from .eval import summarize_and_save_results, format_history_action
 from .prompt import prompt_cheat, prompt_keyframe, prompt_public, prompt_single, prompt_uniform
 from api.vllm_tool import get_api
+from api.closed_model_adapter import build_closed_model, CLOSED_MODEL_CONFIGS
+from api.aiping_adapter import build_aiping_model, AIPING_MODEL_CONFIGS
 
 # ========== 所有模式 & 对应默认参考图子目录 ==========
 # 值为 images/ 下的子目录名，None 表示不需要参考图
@@ -200,11 +206,31 @@ def main():
 
     # Init Model
     if args.use_api:
-        name_list = (['all'] if args.qwen_name_list.strip().lower() == 'all'
-                     else [x.strip() for x in args.qwen_name_list.split(',')])
-        model = get_api(name_list, model_type=args.model_type, max_try=args.max_try,
-                        EXTRA_PARAMS={"max_tokens": args.max_tokens, "temperature": args.temperature},
-                        split=['gui_video', 'ocr'])
+        if args.model_type in AIPING_MODEL_CONFIGS:
+            # Aiping.cn 模型：GPT-5 / GPT-5 Mini（OpenAI 兼容格式）
+            logging.info(f"使用 Aiping 适配器: {args.model_type}")
+            model = build_aiping_model(
+                model_type=args.model_type,
+                max_try=args.max_try,
+                timeout=300,
+                max_tokens=args.max_tokens,
+                temperature=args.temperature,
+            )
+        elif args.model_type in CLOSED_MODEL_CONFIGS:
+            # 闭源模型：使用 ClosedModelAdapter（NACI 格式）
+            logging.info(f"使用闭源模型适配器: {args.model_type}")
+            model = build_closed_model(
+                model_type=args.model_type,
+                max_try=args.max_try,
+                timeout=300,
+            )
+        else:
+            # 开源/自部署模型：使用 vLLM
+            name_list = (['all'] if args.qwen_name_list.strip().lower() == 'all'
+                         else [x.strip() for x in args.qwen_name_list.split(',')])
+            model = get_api(name_list, model_type=args.model_type, max_try=args.max_try,
+                            EXTRA_PARAMS={"max_tokens": args.max_tokens, "temperature": args.temperature},
+                            split=['gui_video', 'ocr'])
     else:
         raise NotImplementedError
 
