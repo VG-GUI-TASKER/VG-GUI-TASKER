@@ -47,6 +47,49 @@ def parse_json(response):
         return None
 
 # ================= 视觉去重工具 =================
+COVERAGE_IMBALANCE_RATIO = 3.0  # 覆盖度失衡倍率：最大gap > 平均gap×此值 → 强制覆盖
+
+def analyze_coverage(sample_idx, num_frames_total):
+    """
+    分析当前帧的时间覆盖度分布 (TASKER-v4 Coverage-Aware)。
+    
+    Returns:
+        {
+            "gaps": [(start, end, gap_size), ...],
+            "max_gap": (start, end, gap_size),
+            "avg_gap": float,
+            "imbalanced": bool,
+            "sparse_segments": [(start, end), ...],
+        }
+    """
+    if len(sample_idx) < 2:
+        return {
+            "gaps": [], "max_gap": (0, num_frames_total, num_frames_total),
+            "avg_gap": num_frames_total, "imbalanced": True,
+            "sparse_segments": [(0, num_frames_total)],
+        }
+    
+    gaps = []
+    for i in range(len(sample_idx) - 1):
+        gap = sample_idx[i + 1] - sample_idx[i]
+        gaps.append((sample_idx[i], sample_idx[i + 1], gap))
+    
+    gap_sizes = [g[2] for g in gaps]
+    avg_gap = np.mean(gap_sizes)
+    max_gap_info = max(gaps, key=lambda g: g[2])
+    
+    imbalanced = max_gap_info[2] > avg_gap * COVERAGE_IMBALANCE_RATIO
+    sparse_threshold = avg_gap * 2.0
+    sparse_segments = [(g[0], g[1]) for g in gaps if g[2] > sparse_threshold]
+    
+    return {
+        "gaps": gaps,
+        "max_gap": max_gap_info,
+        "avg_gap": avg_gap,
+        "imbalanced": imbalanced,
+        "sparse_segments": sparse_segments,
+    }
+
 def compute_color_histogram(img_path):
     """计算图片的颜色直方图特征（3通道联合直方图）"""
     img = cv2.imread(img_path)
@@ -508,9 +551,10 @@ def qa_and_reflect(model, goal, img_paths):
     return answer_str, int(confidence)
 
 # ================= 核心工作流 =================
-def select_process(model, goal, img_paths, sample_idx, num_frames, video_segments, select_fn, video_path=None, video_id=None, hist_cache=None, content_bounds=None, frozen_segments=None, max_frames=None):
+def select_process(model, goal, img_paths, sample_idx, num_frames, video_segments, select_fn, video_path=None, video_id=None, hist_cache=None, content_bounds=None, frozen_segments=None, max_frames=None, forced_segment_id=None):
     # frozen_segments: set of (start, end) tuples — segments that have been explored and found redundant
     # max_frames: 帧数上限，BFS 模式下用于限制单轮新增帧数
+    # forced_segment_id: Coverage-Aware 强制选择的 segment ID (1-indexed)，跳过 VLM 决策
     if frozen_segments is None:
         frozen_segments = set()
     
@@ -537,11 +581,23 @@ def select_process(model, goal, img_paths, sample_idx, num_frames, video_segment
         print(f"  [select_process] All segments are frozen. Nothing to split.")
         return video_segments, sample_idx, False
     
-    candidate_descriptions = select_fn(model, goal, img_paths, num_frames, segment_des_str)
-    parsed_candidate = parse_json(candidate_descriptions) if candidate_descriptions else None
+    # === Coverage-Aware: 如果有强制选择的 segment，跳过 VLM 决策 ===
+    if forced_segment_id is not None and 1 <= forced_segment_id <= len(video_segments):
+        seg = video_segments[forced_segment_id - 1]
+        if seg.end - seg.start > 1 and (seg.start, seg.end) not in frozen_segments:
+            print(f"  [select_process] Coverage-Aware FORCED: directly selecting segment {forced_segment_id} ({seg.start}-{seg.end})")
+            selected_seg_ids = {forced_segment_id}
+            parsed_candidate = None  # skip VLM path
+        else:
+            forced_segment_id = None  # fallback to normal VLM decision
+    
+    if forced_segment_id is None:
+        candidate_descriptions = select_fn(model, goal, img_paths, num_frames, segment_des_str)
+        parsed_candidate = parse_json(candidate_descriptions) if candidate_descriptions else None
     
     # --- Determine which segment IDs to split ---
-    selected_seg_ids = set()
+    if forced_segment_id is None:
+        selected_seg_ids = set()
     
     if parsed_candidate and "frame_descriptions" in parsed_candidate:
         selected_descriptions = parsed_candidate["frame_descriptions"]
@@ -808,6 +864,7 @@ def run_one_video(video_id, goal, model, args):
     max_total_attempts = TARGET_MAX_FRAMES + 10  # 安全上限，防止去重/过滤导致无限循环
     effective_step = 0  # 有效步数（只有真正新增帧的轮次才计数）
     last_confidence = 0  # 追踪最后一次置信度评估结果
+    forced_coverage_count = 0  # 强制覆盖次数统计
     for attempt in range(1, max_total_attempts + 1):
         current_frames = len(sample_idx)
         print(f"\n>>>>> [Video: {video_id}] Attempt {attempt} (effective_step={effective_step}) | Current Frames: {current_frames} | Target: {TARGET_MIN_FRAMES}-{TARGET_MAX_FRAMES} <<<<<")
@@ -833,8 +890,25 @@ def run_one_video(video_id, goal, model, args):
                 print(f"[{video_id}] Effective step {effective_step} - Forced expansion (only {current_frames} frames, need >= {TARGET_MIN_FRAMES})")
             else:
                 print(f"[{video_id}] Effective step {effective_step} - Forced expansion (min_steps={args.min_steps}, skipping confidence check)")
+        
+        # === Coverage-Aware: 检测覆盖度失衡，强制选最大gap区域 ===
+        forced_segment_override = None
+        if current_frames >= INIT_FRAMES + 2:
+            coverage = analyze_coverage(sample_idx, num_frames)
+            if coverage["imbalanced"]:
+                max_gap_start, max_gap_end, max_gap_size = coverage["max_gap"]
+                # 找到这个 gap 对应的 video_segments 中的 segment
+                for seg_idx, seg in enumerate(video_segments):
+                    if seg.start == max_gap_start and seg.end == max_gap_end:
+                        if seg.end - seg.start > 1 and (seg.start, seg.end) not in frozen_segments:
+                            forced_segment_override = seg_idx + 1  # 1-indexed segment_id
+                            forced_coverage_count += 1
+                            print(f"  [Coverage-Aware] FORCED: Segment {forced_segment_override} "
+                                  f"({max_gap_start}-{max_gap_end}, gap={max_gap_size}) is severely sparse "
+                                  f"(avg_gap={coverage['avg_gap']:.0f}). Overriding VLM decision.")
+                        break
             
-        # 节点扩展: 始终使用配置的搜索策略
+        # 节点扩展: 使用配置的搜索策略（或覆盖度强制选择）
         if args.search_strategy == "bfs":
             select_fn = bfs_select_segments
         elif args.search_strategy == "gbfs":
@@ -847,7 +921,8 @@ def run_one_video(video_id, goal, model, args):
         video_segments, sample_idx, actually_added = select_process(
             model, goal, img_paths, sample_idx, num_frames, video_segments, select_fn,
             video_path=video_path, video_id=video_id, hist_cache=hist_cache, content_bounds=content_bounds,
-            frozen_segments=frozen_segments, max_frames=TARGET_MAX_FRAMES
+            frozen_segments=frozen_segments, max_frames=TARGET_MAX_FRAMES,
+            forced_segment_id=forced_segment_override
         )
         
         if actually_added:
