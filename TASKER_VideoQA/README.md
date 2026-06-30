@@ -6,7 +6,7 @@
 
 This directory contains the **VideoQA** implementation of **TASKER** (**Ta**sk-driven **a**nd **S**cene-aware **Ke**yframe sea**r**cher), part of the ECCV 2026 paper [Bridging VideoQA and Video-Guided Agentic Tasks via Generalized Keyframe Extraction](https://arxiv.org/abs/2606.29445). For the GUI agent benchmark, see [VG-GUI-Bench](../VG-GUI-Bench/README.md); for the project overview, see the [root README](../README.md).
 
-> **Relation to AKeyS.** TASKER for VideoQA originates from and generalizes our earlier work **AKeyS** (*Agentic Keyframe Search for Video Question Answering*, [arXiv:2503.16032](https://arxiv.org/abs/2503.16032), [code](https://github.com/fansunqi/AKeyS)). In this paper we rename AKeyS to TASKER and extend the algorithm from VideoQA to video-guided agentic tasks. If you are looking for the original AKeyS release, please refer to the [AKeyS repository](https://github.com/fansunqi/AKeyS).
+> **Relation to AKeyS.** TASKER for VideoQA originates from and generalizes our earlier work **AKeyS** (*Agentic Keyframe Search for Video Question Answering*, [arXiv:2503.16032](https://arxiv.org/abs/2503.16032)). In this paper we rename AKeyS to TASKER and extend the algorithm from VideoQA to video-guided agentic tasks. The code in this directory is identical to the original AKeyS codebase, so you can use it directly here — there is no need to clone any separate AKeyS repository.
 
 ## News and Todo 🗓️
 
@@ -26,11 +26,11 @@ This directory contains the **VideoQA** implementation of **TASKER** (**Ta**sk-d
 
 TASKER does not require many computational resources; it can run on a personal computer without GPU.
 
-1. Clone the repository 📦:
+1. Clone the repository and enter this directory 📦:
 
    ```bash
-   git clone git@github.com:fansunqi/AKeyS.git
-   cd AKeyS
+   git clone git@github.com:VG-GUI-TASKER/VG-GUI-TASKER.git
+   cd VG-GUI-TASKER/TASKER_VideoQA
    ```
 
 2. Create a virtual environment 🧹 and install the dependencies 🧑‍🍳:
