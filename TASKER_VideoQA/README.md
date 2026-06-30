@@ -1,9 +1,12 @@
-# 🌲 AKeyS: Agentic Keyframe Search for Video Question Answering
+# 🌲 TASKER: Task-driven and Scene-aware Keyframe Search for Video Question Answering
 
 [![GitHub license](https://img.shields.io/badge/License-MIT-green.svg?logo=github)](https://lbesson.mit-license.org/)
-[![Arxiv](https://img.shields.io/badge/arXiv-2503.16032-B31B1B.svg?logo=arxiv)](https://arxiv.org/abs/2503.16032)
+[![Arxiv](https://img.shields.io/badge/arXiv-2606.29445-B31B1B.svg?logo=arxiv)](https://arxiv.org/abs/2606.29445)
+[![Project Page](https://img.shields.io/badge/Project-Page-blue.svg?logo=github)](https://vg-gui-tasker.github.io/)
 
-This repository is the official implementation of [Agentic Keyframe Search for Video Question Answering](https://arxiv.org/abs/2503.16032).
+This directory contains the **VideoQA** implementation of **TASKER** (**Ta**sk-driven **a**nd **S**cene-aware **Ke**yframe sea**r**cher), part of the ECCV 2026 paper [Bridging VideoQA and Video-Guided Agentic Tasks via Generalized Keyframe Extraction](https://arxiv.org/abs/2606.29445). For the GUI agent benchmark, see [VG-GUI-Bench](../VG-GUI-Bench/README.md); for the project overview, see the [root README](../README.md).
+
+> **Relation to AKeyS.** TASKER for VideoQA originates from and generalizes our earlier work **AKeyS** (*Agentic Keyframe Search for Video Question Answering*, [arXiv:2503.16032](https://arxiv.org/abs/2503.16032), [code](https://github.com/fansunqi/AKeyS)). In this paper we rename AKeyS to TASKER and extend the algorithm from VideoQA to video-guided agentic tasks. If you are looking for the original AKeyS release, please refer to the [AKeyS repository](https://github.com/fansunqi/AKeyS).
 
 ## News and Todo 🗓️
 
@@ -13,29 +16,28 @@ This repository is the official implementation of [Agentic Keyframe Search for V
 
 - [ ] Release Code for NExT-QA
 
-## Introduction 
+## Introduction
 
-​	We present **Agentic Keyframe Search (AKeyS)**, a simple yet powerful algorithm for identifying keyframes in the VideoQA task. It can effectively distinguish key information from redundant, irrelevant content by leveraging modern language agents to direct classical search algorithms. Specifically, we first segment the video and organize it as a tree structure. Then, AKEYS uses a
-language agent to estimate heuristics and movement costs while dynamically expanding nodes. Finally, the agent determines if sufficient keyframes have been collected based on termination conditions and provides answers. Extensive experiments on the EgoSchema and NExT-QA datasets show that AKEYS outperforms all previous methods with the highest keyframe searching efficiency, which means it can accurately identify key information and conduct effective visual reasoning with minimal computational overhead. For example, on the EgoSchema subset, it achieves 1.8% higher accuracy while processing only 43.5% of the frames compared to VideoTree.
+​	We present **TASKER (Task-driven and Scene-aware Keyframe searcher)**, a simple yet powerful algorithm for identifying keyframes in the VideoQA task. It can effectively distinguish key information from redundant, irrelevant content by leveraging modern language agents to direct classical search algorithms. Specifically, we first segment the video and organize it as a tree structure. Then, TASKER uses a language agent to estimate heuristics and movement costs while dynamically expanding nodes. Finally, the agent determines if sufficient keyframes have been collected based on termination conditions and provides answers. Extensive experiments on the EgoSchema and NExT-QA datasets show that TASKER outperforms all previous methods with the highest keyframe searching efficiency, which means it can accurately identify key information and conduct effective visual reasoning with minimal computational overhead. For example, on the EgoSchema subset, it achieves 1.8% higher accuracy while processing only 43.5% of the frames compared to VideoTree.
 
-<img src="assets/teaser.png" style="zoom:200%;" />
+<img src="../assets/TASKER.png" style="zoom:200%;" />
 
 ## Installation Steps 🛠️
 
-Our TreeVideoAgent does not require many computational resources; it can run on a personal computer without GPU.
+TASKER does not require many computational resources; it can run on a personal computer without GPU.
 
 1. Clone the repository 📦:
 
-   ```python
-   git clone git@github.com:fansunqi/TreeVideoAgentPublic.git
-   cd TreeVideoAgentPublic
+   ```bash
+   git clone git@github.com:fansunqi/AKeyS.git
+   cd AKeyS
    ```
 
 2. Create a virtual environment 🧹 and install the dependencies 🧑‍🍳:
 
-   ```python
-   python3 -m venv tva_env
-   source tva_env/bin/activate
+   ```bash
+   python3 -m venv tasker_env
+   source tasker_env/bin/activate
    pip install -r requirements.txt
    ```
 
@@ -58,7 +60,7 @@ sh scripts/demo.sh
 
 A visualized example:
 
-<img src="assets/viz.png" style="zoom:200%;" />
+<img src="../assets/viz.png" style="zoom:200%;" />
 
 ## EgoSchema Experiments 🔬
 
@@ -88,7 +90,7 @@ python3 analyze_results.py --filepath YOUR_RESULT_JSON_FILE_PATH
 
 It will output a histogram showing the number of problems solved and the accuracy at each step like this:
 
-<img src="results/egoschema_subset/20250315_162843.png" style="zoom: 50%;" />
+<img src="../assets/egoschema_results.png" style="zoom: 50%;" />
 
 ## Acknowledgments
 
@@ -96,9 +98,20 @@ We thank the developers of [LLoVi](https://github.com/CeeZh/LLoVi), [VideoTree](
 
 ## Citation
 
-If you find our repo useful, please kindly consider citing:
+If you find our repo useful, please kindly consider citing the ECCV 2026 paper:
 
+```bibtex
+@inproceedings{fan2026bridging,
+  title     = {Bridging VideoQA and Video-Guided Agentic Tasks via Generalized Keyframe Extraction},
+  author    = {Fan, Sunqi and Liu, Qingle and Yin, Runqi and Guo, Meng-Hao and Yang, Shuojin},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2026}
+}
 ```
+
+This work builds upon our earlier AKeyS paper:
+
+```bibtex
 @misc{fan2025agentickeyframesearchvideo,
       title={Agentic Keyframe Search for Video Question Answering}, 
       author={Sunqi Fan and Meng-Hao Guo and Shuojin Yang},
@@ -109,4 +122,3 @@ If you find our repo useful, please kindly consider citing:
       url={https://arxiv.org/abs/2503.16032}, 
 }
 ```
-

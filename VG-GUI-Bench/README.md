@@ -1,5 +1,7 @@
 # VG-GUI-Bench
 
+> Part of [**Bridging VideoQA and Video-Guided Agentic Tasks via Generalized Keyframe Extraction**](../README.md) (ECCV 2026). &nbsp;[← Back to root README](../README.md)
+
 **Video-Grounded GUI Agent Benchmark** — A benchmark for evaluating vision-language models on GUI automation tasks using video tutorial guidance.
 
 ## Overview
