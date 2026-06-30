@@ -38,6 +38,9 @@ env/
 *.ico
 *.webp
 
+# But keep README/figure assets
+!assets/**
+
 # IDE
 .idea/
 .vscode/
