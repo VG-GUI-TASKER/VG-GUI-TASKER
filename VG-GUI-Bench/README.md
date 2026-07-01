@@ -6,7 +6,7 @@
 
 ## Overview
 
-VG-GUI-Bench evaluates how well multimodal large language models (VLMs) can predict the next GUI action on a mobile device, given reference frames extracted from YouTube tutorial videos and the current screen state. The benchmark is built on the [MONDAY](https://huggingface.co/datasets/runamu/MONDAY) dataset.
+VG-GUI-Bench evaluates how well multimodal large language models (VLMs) can predict the next GUI action on a mobile device, given reference frames extracted from YouTube tutorial videos and the current screen state. The dataset is released on Hugging Face as [🤗 **Aoraku/VG-GUI-Bench**](https://huggingface.co/datasets/Aoraku/VG-GUI-Bench) and is built on the [MONDAY](https://huggingface.co/datasets/runamu/MONDAY) dataset.
 
 ### Key Idea
 
@@ -19,30 +19,33 @@ Given a tutorial video showing how to complete a task on a mobile phone, the mod
 
 ```
 VG-GUI-Bench/
-├── run.sh                  # Main entry script
-├── api/                    # Model API layer
-│   ├── gpt_new.py          # VLLMModel with adaptive load balancing & circuit breaker
-│   ├── vllm_tool.py        # API construction from config
-│   ├── vllm_ips.py         # Model service IP registry
-│   ├── vllm_ips_config.json
-│   └── use_api.py          # Usage example
-├── core/                   # Evaluation core
-│   ├── eval_qwen.py        # Main evaluation loop (multi-threaded)
-│   ├── eval.py             # Scoring engine: action parsing, matching, CSV report
-│   ├── prompt.py           # System prompt templates (5 modes)
-│   ├── action_matching.py  # Action matching (from Google Android-in-the-Wild)
-│   ├── action_type.py      # Action type enums
-│   └── models.py           # Model abstraction (OpenAI/vLLM)
-├── data_process/           # Data preprocessing pipeline
-│   ├── process_all.sh      # Generate all image directories
-│   ├── extract_scenes.py   # Extract frames by scene timestamps
-│   ├── extract_uniform.py  # Uniform frame sampling
-│   ├── annotate_monday.py  # Draw red bounding boxes (cropped)
-│   ├── annotate_no_cut.py  # Draw red bounding boxes (full-frame)
-│   └── utils.py            # ffmpeg utilities, cropping, black border removal
-├── MONDAY/                 # Dataset (not included, see Data Preparation)
-└── MONDAY_LARGE/           # Large-scale dataset (not included)
+├── run.sh                     # Main evaluation entry script
+├── run_leaderboard.sh         # Batch run across reference modes for the leaderboard
+├── aggregate_leaderboard.py   # Aggregate per-run results into a leaderboard table
+├── test_models.py             # Quick connectivity test for your model endpoint
+├── api/                       # Model API layer (OpenAI-compatible)
+│   ├── model.py               # OpenAICompatibleModel + build_model() factory
+│   └── use_api.py             # Usage example / batch calling helper
+├── core/                      # Evaluation core
+│   ├── eval_qwen.py           # Main evaluation loop (multi-threaded)
+│   ├── eval.py                # Scoring engine: action parsing, matching, CSV report
+│   ├── prompt.py              # System prompt templates
+│   ├── action_matching.py     # Action matching (from Google Android-in-the-Wild)
+│   ├── action_type.py         # Action type enums
+│   └── models.py              # Model abstraction (OpenAI-compatible)
+├── data_process/              # Data preprocessing pipeline
+│   ├── process_all.sh         # Generate all image directories
+│   ├── extract_scenes.py      # Extract frames by scene timestamps
+│   ├── extract_uniform.py     # Uniform frame sampling
+│   ├── annotate_monday.py     # Draw red bounding boxes (cropped)
+│   ├── annotate_no_cut.py     # Draw red bounding boxes (full-frame)
+│   └── utils.py               # ffmpeg utilities, cropping, black border removal
+├── annotator/                 # Annotation utilities
+├── leaderboard/               # Leaderboard assets
+└── MONDAY/                    # Dataset (not included, see Data Preparation)
 ```
+
+> **Keyframe extraction (the `tasker` mode).** The TASKER algorithm that produces the `tasker` reference frames lives in a separate top-level directory, [`../TASKER/gui/`](../TASKER/README.md). Run it first to generate the frames, then evaluate them here with `bash run.sh tasker cut`.
 
 ## Reference Image Modes
 
@@ -73,21 +76,46 @@ Each mode can run in **cut** (cropped to phone screen) or **nocut** (full frame)
 
 ## Data Preparation
 
-1. Download the [MONDAY dataset](https://huggingface.co/datasets/runamu/MONDAY) and place it under `MONDAY/`.
+1. Download the [VG-GUI-Bench dataset](https://huggingface.co/datasets/Aoraku/VG-GUI-Bench) and place it under `MONDAY/`:
 
-2. Run the data processing pipeline to generate reference images:
-   ```bash
-   cd data_process
-   bash process_all.sh
+   ```python
+   from huggingface_hub import snapshot_download
+   snapshot_download(repo_id="Aoraku/VG-GUI-Bench", repo_type="dataset", local_dir="MONDAY")
    ```
 
-   This generates 8 image subdirectories under `MONDAY/images/`:
+   The released dataset already ships the source videos (`ytb_video/`), the action annotations
+   (`ours_data.json`), and 8 pre-rendered image subdirectories under `images/`:
    - `origin` / `origin_no_cut` — Scene-timestamp frames
    - `uniform_5` / `uniform_5_no_cut` — 5 uniformly sampled frames
    - `uniform_10` / `uniform_10_no_cut` — 10 uniformly sampled frames
    - `annotation` / `annotation_no_cut` — Frames with red bounding box annotations
 
+2. (Optional) Regenerate or add reference images from the source videos:
+   ```bash
+   cd data_process
+   bash process_all.sh
+   ```
+
 ## Usage
+
+### Model Configuration
+
+Evaluation calls any **OpenAI-compatible** endpoint (OpenAI, Azure OpenAI, or a self-hosted server such as vLLM / SGLang / LMDeploy). Configure it via environment variables before running:
+
+```bash
+export OPENAI_API_KEY="sk-..."
+export OPENAI_MODEL="gpt-4o-2024-11-20"        # model name to evaluate
+# Optional — only for a self-hosted / non-default endpoint:
+export OPENAI_BASE_URL="http://127.0.0.1:8000/v1"
+```
+
+You can verify connectivity first with:
+
+```bash
+python test_models.py --model "$OPENAI_MODEL"
+```
+
+The `--model_name`, `--api_key`, and `--base_url` flags of `core/eval_qwen.py` (surfaced through `run.sh`) override these environment variables.
 
 ### Quick Start
 

@@ -5,7 +5,7 @@
   <a href="https://huggingface.co/papers/2606.29445"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20HF-Daily%20Paper-FFD21E.svg" alt="HF Daily Paper"></a>
   <a href="https://vg-gui-tasker.github.io/"><img src="https://img.shields.io/badge/Project-Page-blue.svg?logo=github" alt="Project Page"></a>
   <a href="https://github.com/VG-GUI-TASKER/VG-GUI-TASKER"><img src="https://img.shields.io/badge/Code-GitHub-181717.svg?logo=github" alt="Code"></a>
-  <a href="https://huggingface.co/datasets/runamu/MONDAY"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Data-MONDAY-FFD21E.svg" alt="Data"></a>
+  <a href="https://huggingface.co/datasets/Aoraku/VG-GUI-Bench"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Data-VG--GUI--Bench-FFD21E.svg" alt="Data"></a>
   <a href="https://vg-gui-tasker.github.io/#leaderboard"><img src="https://img.shields.io/badge/%F0%9F%8F%86%20Leaderboard-Online-success.svg" alt="Leaderboard"></a>
   <a href="https://lbesson.mit-license.org/"><img src="https://img.shields.io/badge/License-MIT-green.svg?logo=github" alt="License"></a>
 </p>
@@ -47,30 +47,37 @@ This repository is organized into two parts, corresponding to the two paradigms 
 | Part | Description | Get Started |
 |------|-------------|-------------|
 | 📱 **[VG-GUI-Bench](VG-GUI-Bench/README.md)** | The Video-Guided GUI Agent benchmark: data pipeline, reference-frame modes, evaluation, and leaderboard scripts. | [→ `VG-GUI-Bench/README.md`](VG-GUI-Bench/README.md) |
-| 🔍 **[TASKER for VideoQA](TASKER_VideoQA/README.md)** | The TASKER keyframe-search algorithm applied to VideoQA (EgoSchema, NExT-QA). | [→ `TASKER_VideoQA/README.md`](TASKER_VideoQA/README.md) |
+| 🔍 **[TASKER](TASKER/README.md)** | The TASKER keyframe-search algorithm, covering **both** stages: VideoQA (`videoqa/`) and video-guided GUI tutorials (`gui/`). | [→ `TASKER/README.md`](TASKER/README.md) |
 
 ```
 VG-GUI-TASKER/
-├── VG-GUI-Bench/       # Video-Guided GUI Agent benchmark  → see its README
-├── TASKER_VideoQA/     # TASKER keyframe search for VideoQA → see its README
+├── VG-GUI-Bench/       # Video-Guided GUI Agent benchmark   → see its README
+├── TASKER/             # TASKER keyframe search (VideoQA + GUI stages) → see its README
+│   ├── videoqa/        #   Stage 1: VideoQA keyframe search (EgoSchema, NExT-QA)
+│   └── gui/            #   Stage 2: GUI-tutorial keyframe extraction for VG-GUI-Bench
 └── README.md           # You are here
 ```
 
 ### 📱 Part 1 — VG-GUI-Bench
 
-A dedicated benchmark for evaluating MLLM-based GUI agents on long-horizon tasks guided by video tutorials, built upon the [MONDAY](https://huggingface.co/datasets/runamu/MONDAY) dataset. It provides a standardized action space (CLICK, SCROLL, TYPE, PRESS, ZOOM, FINISH) and four metrics (Accuracy, Completion, Efficiency, PIR).
+A dedicated benchmark for evaluating MLLM-based GUI agents on long-horizon tasks guided by video tutorials, released as the [🤗 **VG-GUI-Bench** dataset](https://huggingface.co/datasets/Aoraku/VG-GUI-Bench) and built upon the [MONDAY](https://huggingface.co/datasets/runamu/MONDAY) dataset. It provides a standardized action space (CLICK, SCROLL, TYPE, PRESS, ZOOM, FINISH) and four metrics (Accuracy, Completion, Efficiency, PIR).
 
 ➡️ **Setup, data preparation, and evaluation:** see **[`VG-GUI-Bench/README.md`](VG-GUI-Bench/README.md)**.
 
 ➡️ **Live results:** see the **[Leaderboard](https://vg-gui-tasker.github.io/#leaderboard)**.
 
-### 🔍 Part 2 — TASKER for VideoQA
+### 🔍 Part 2 — TASKER
 
 TASKER reformulates keyframe extraction as a generalized graph-search problem. The video is split into segments (nodes), and an MLLM evaluates cost functions and termination confidence to decide which segments to expand — selecting a compact yet informative set of keyframes. Variants include TASKER-BFS / GBFS / Dijkstra / A\*.
 
-➡️ **Installation, demo, and EgoSchema/NExT-QA experiments:** see **[`TASKER_VideoQA/README.md`](TASKER_VideoQA/README.md)**.
+The **same** search paradigm powers both paradigms studied in the paper, so the code is organized into two stages under one directory:
 
-> **Note.** The TASKER algorithm for VideoQA originates from our earlier work **AKeyS** (*Agentic Keyframe Search for Video Question Answering*, [arXiv:2503.16032](https://arxiv.org/abs/2503.16032)). TASKER generalizes and renames AKeyS, extending it from VideoQA to video-guided agentic tasks. See the [`TASKER_VideoQA/README.md`](TASKER_VideoQA/README.md) for details.
+- `TASKER/videoqa/` — Stage 1: keyframe search for **VideoQA** (EgoSchema, NExT-QA), using a caption/text-based LLM.
+- `TASKER/gui/` — Stage 2: keyframe extraction for **video-guided GUI tutorials**, using a multi-image VLM; its output feeds the `tasker` reference mode of VG-GUI-Bench.
+
+➡️ **Installation, demo, and both-stage experiments:** see **[`TASKER/README.md`](TASKER/README.md)**.
+
+> **Note.** The TASKER algorithm originates from our earlier work **AKeyS** (*Agentic Keyframe Search for Video Question Answering*, [arXiv:2503.16032](https://arxiv.org/abs/2503.16032)). TASKER generalizes and renames AKeyS, extending it from VideoQA to video-guided agentic tasks. See [`TASKER/README.md`](TASKER/README.md) for details.
 
 ## Links
 
@@ -78,7 +85,7 @@ TASKER reformulates keyframe extraction as a generalized graph-search problem. T
 - 🤗 Hugging Face Daily Paper: https://huggingface.co/papers/2606.29445
 - 🌐 Project Page: https://vg-gui-tasker.github.io/
 - 💻 Code: https://github.com/VG-GUI-TASKER/VG-GUI-TASKER
-- 🗂️ Data (MONDAY): https://huggingface.co/datasets/runamu/MONDAY
+- 🗂️ Data (VG-GUI-Bench): https://huggingface.co/datasets/Aoraku/VG-GUI-Bench
 - 🏆 Leaderboard: https://vg-gui-tasker.github.io/#leaderboard
 
 ## Acknowledgements
@@ -98,7 +105,7 @@ If you find our work useful, please kindly consider citing:
 }
 ```
 
-The TASKER algorithm for VideoQA builds upon our earlier AKeyS paper:
+The TASKER algorithm builds upon our earlier AKeyS paper:
 
 ```bibtex
 @misc{fan2025agentickeyframesearchvideo,

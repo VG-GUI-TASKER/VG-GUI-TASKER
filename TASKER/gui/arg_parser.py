@@ -3,12 +3,16 @@ import argparse
 def parse_args():
     parser = argparse.ArgumentParser("TreeVideoAgent")
 
-    # ================= 新增：Qwen 与简化版 AKeyS 专用的参数 =================
-    parser.add_argument('--qwen_name_list', type=str, default='all')
-    parser.add_argument('--model_type', type=str, default='qwen3vl')
+    # ================= Model endpoint (OpenAI-compatible) =================
+    # Any argument left as None falls back to the OPENAI_MODEL / OPENAI_API_KEY /
+    # OPENAI_BASE_URL environment variables.
+    parser.add_argument('--api_key', type=str, default=None,
+                        help='API key. Defaults to the OPENAI_API_KEY env var.')
+    parser.add_argument('--base_url', type=str, default=None,
+                        help='OpenAI-compatible base URL. Defaults to OPENAI_BASE_URL.')
     parser.add_argument('--conf_lower', type=int, default=3, help='Confidence threshold (1-3) to stop searching')
     
-    # ================= 下面是原版仓库的参数完全保留 =================
+    # ================= Original repository arguments (kept for compatibility) =================
     # data
     parser.add_argument("--dataset", default='egoschema_subset', type=str)
     parser.add_argument("--cap_path", default='data/egoschema/lavila_subset.json', type=str) 
@@ -67,14 +71,14 @@ def parse_args():
     parser.add_argument("--shard", default=0, type=int,
                         help='Shard index 1-10 for parallel execution. 0 means process all data.')
 
-    # ================= 路径配置（原先硬编码在 main.py 中） =================
+    # ================= Path configuration (previously hard-coded in main.py) =================
     parser.add_argument("--video_dir", type=str, required=True,
-                        help='Directory containing input video files (e.g. /root/projects/monday/ytb_video_test)')
+                        help='Directory containing input video files (e.g. ./MONDAY/ytb_video_test)')
     parser.add_argument("--json_dir", type=str, required=True,
-                        help='Path to the task JSON file (e.g. /root/projects/monday/ours_data_test.json)')
+                        help='Path to the task JSON file (e.g. ./MONDAY/ours_data_test.json)')
     parser.add_argument("--out_root", type=str, required=True,
                         help='Output directory for extracted keyframe images')
-    parser.add_argument("--cache_dir", type=str, default="/tmp/akeys_frame_cache",
+    parser.add_argument("--cache_dir", type=str, default="/tmp/tasker_frame_cache",
                         help='Temp cache directory for extracted frames')
     parser.add_argument("--record_json_path", type=str, required=True,
                         help='Path to save final selected frame records JSON')

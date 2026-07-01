@@ -18,9 +18,7 @@ import threading
 
 from .eval import summarize_and_save_results, format_history_action
 from .prompt import prompt_cheat, prompt_keyframe, prompt_public, prompt_single, prompt_uniform
-from api.vllm_tool import get_api
-from api.closed_model_adapter import build_closed_model, CLOSED_MODEL_CONFIGS
-from api.aiping_adapter import build_aiping_model, AIPING_MODEL_CONFIGS
+from api.model import build_model
 
 # ========== 所有模式 & 对应默认参考图子目录 ==========
 # 值为 images/ 下的子目录名，None 表示不需要参考图
@@ -129,10 +127,17 @@ def resolve_imgs_dir(dataset_root, no_cut):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    # model args
-    parser.add_argument('--use_api', action='store_true')
-    parser.add_argument('--qwen_name_list', type=str, default='all')
-    parser.add_argument('--model_type', type=str, default='qwen35')
+    # model args (OpenAI-compatible endpoint; anything omitted falls back to
+    # the OPENAI_MODEL / OPENAI_API_KEY / OPENAI_BASE_URL environment variables)
+    parser.add_argument('--model_name', type=str, default=None,
+                        help='Model name/path served by the endpoint. '
+                             'Defaults to the OPENAI_MODEL environment variable.')
+    parser.add_argument('--api_key', type=str, default=None,
+                        help='API key. Defaults to the OPENAI_API_KEY env var '
+                             '(use "EMPTY" for local servers that skip auth).')
+    parser.add_argument('--base_url', type=str, default=None,
+                        help='OpenAI-compatible base URL. Defaults to the '
+                             'OPENAI_BASE_URL env var.')
     parser.add_argument('--max_try', type=int, default=3)
     parser.add_argument('--max_tokens', type=int, default=8192)
     parser.add_argument('--temperature', type=float, default=0.6)
@@ -147,8 +152,7 @@ def parse_args():
                         help=f'Reference image mode: {"/".join(ALL_MODES)}')
     parser.add_argument('--ref_imgs_dir', type=str, default=None,
                         help='Directory for reference context images. Auto-resolved if not set.')
-    parser.add_argument('--dataset_root', type=str,
-                        default='/data/home/stevefan/projects/lql/VG-GUI-Bench/MONDAY',
+    parser.add_argument('--dataset_root', type=str, default='./MONDAY',
                         help='Dataset root dir.')
     parser.add_argument('--no_cut', action='store_true',
                         help='Use no-cut (uncropped) image directories.')
@@ -157,7 +161,7 @@ def parse_args():
     parser.add_argument('--multianswer_history_mode', type=str, default='first')
     parser.add_argument('--num_history', type=int, default=4)
     parser.add_argument('--log_root', type=str, default='./logs/')
-    parser.add_argument('--eval_name', type=str, default='qwen3vl')
+    parser.add_argument('--eval_name', type=str, default='model')
     parser.add_argument('--task', type=str, required=True)
     parser.add_argument('--quick_test', action='store_true',
                         help='Only run 1/50 of episodes for quick testing')
@@ -200,39 +204,22 @@ def main():
     for key, value in sorted(arg_dict.items()):
         logging.info(f"  {key} : {value}")
 
-    torch.manual_seed(0)
+    if HAS_TORCH:
+        torch.manual_seed(0)
     random.seed(0)
     np.random.seed(0)
 
-    # Init Model
-    if args.use_api:
-        if args.model_type in AIPING_MODEL_CONFIGS:
-            # Aiping.cn 模型：GPT-5 / GPT-5 Mini（OpenAI 兼容格式）
-            logging.info(f"使用 Aiping 适配器: {args.model_type}")
-            model = build_aiping_model(
-                model_type=args.model_type,
-                max_try=args.max_try,
-                timeout=300,
-                max_tokens=args.max_tokens,
-                temperature=args.temperature,
-            )
-        elif args.model_type in CLOSED_MODEL_CONFIGS:
-            # 闭源模型：使用 ClosedModelAdapter（NACI 格式）
-            logging.info(f"使用闭源模型适配器: {args.model_type}")
-            model = build_closed_model(
-                model_type=args.model_type,
-                max_try=args.max_try,
-                timeout=300,
-            )
-        else:
-            # 开源/自部署模型：使用 vLLM
-            name_list = (['all'] if args.qwen_name_list.strip().lower() == 'all'
-                         else [x.strip() for x in args.qwen_name_list.split(',')])
-            model = get_api(name_list, model_type=args.model_type, max_try=args.max_try,
-                            EXTRA_PARAMS={"max_tokens": args.max_tokens, "temperature": args.temperature},
-                            split=['gui_video', 'ocr'])
-    else:
-        raise NotImplementedError
+    # Init Model: any OpenAI-compatible VLM endpoint (OpenAI / Azure / local vLLM ...)
+    model = build_model(
+        model_name=args.model_name,
+        api_key=args.api_key,
+        base_url=args.base_url,
+        max_try=args.max_try,
+        timeout=300,
+        max_tokens=args.max_tokens,
+        temperature=args.temperature,
+    )
+    logging.info(f"Using model: {model}")
 
     imgs_dir = args.imgs_dir
     test_data = json.load(open(args.test_json_path, 'r'))

@@ -1,72 +1,72 @@
-import sys
-# sys.path.append('/apdcephfs_gy2/share_303242896/harveyshen/code/1101_xgen/vllm_scripts')
-# sys.path.append('/apdcephfs_gy2/share_303242896/harveyshen/share_code/request_vllm')
-from api.vllm_tool import get_api
-from PIL import Image
-import io
-import base64
+"""
+Minimal example showing how to call a Vision-Language Model through the
+generic OpenAI-compatible interface (see ``api/model.py``).
+
+Configure the endpoint with environment variables, then run this file::
+
+    # Official OpenAI
+    export OPENAI_API_KEY="sk-..."
+    export OPENAI_MODEL="gpt-4o"
+
+    # ...or a local vLLM server hosting an open-source VLM
+    export OPENAI_BASE_URL="http://127.0.0.1:8000/v1"
+    export OPENAI_API_KEY="EMPTY"
+    export OPENAI_MODEL="Qwen/Qwen2.5-VL-7B-Instruct"
+
+    python -m api.use_api
+"""
+
 import concurrent.futures
-# 所有 Qwen3VL-Thinking 的服务
-api = get_api(['all'], model_type='qwen35', max_try=5, split=['gui_video', 'ocr'])
 
-# NOTE: 可以设置 image_first 参数，默认为 False，即文本在前，图片在后
+from api.model import build_model
 
 
-def process_image_gpt(image_path):
-    image = Image.open(image_path)
-    image = image.resize((image.width // 2, image.height // 2))
-    buffer = io.BytesIO()
-    image.save(buffer, format="PNG")
-    buffer.seek(0)
-    image_base64 = base64.b64encode(buffer.read()).decode("utf-8")
-    return f"data:image/png;base64,{image_base64}"
-
-
-def batch_api_call(tasks, num_threads=16):
-    """
-    并发调用 api，加速批量请求。
+def batch_api_call(model, tasks, num_threads=16):
+    """Run multiple model calls concurrently.
 
     Args:
-        tasks: 任务列表，每个元素是传给 api() 的参数字典，例如:
+        model: A callable model built with ``build_model()``.
+        tasks: A list of kwargs dicts forwarded to ``model()``, e.g.::
+
             [
-                {"img_path": "./api/test_images/test1.jpg", "question": "描述图片"},
-                {"img_path": "./api/test_images/test2.jpg", "question": "图中有几个人？"},
+                {"img_path_or_list": "test_images/test1.jpg", "question": "Describe the image."},
+                {"img_path_or_list": "test_images/test2.jpg", "question": "How many people are there?"},
             ]
-        num_threads: 并发线程数，建议设为服务端 IP 数的 1~2 倍
+        num_threads: Number of concurrent workers.
 
     Returns:
-        与 tasks 顺序一致的结果列表，失败的任务对应值为 None
+        A list of results aligned with ``tasks`` (``None`` for failed calls).
     """
     results = [None] * len(tasks)
-
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
-        future_to_idx = {executor.submit(api, **task): i for i, task in enumerate(tasks)}
+        future_to_idx = {executor.submit(model, **task): i for i, task in enumerate(tasks)}
         for future in concurrent.futures.as_completed(future_to_idx):
             idx = future_to_idx[future]
             try:
                 results[idx] = future.result()
-            except Exception as e:
-                print(f"任务 {idx} 出错: {e}")
+            except Exception as e:  # noqa: BLE001
+                print(f"Task {idx} failed: {e}")
                 results[idx] = None
-
     return results
 
 
-# ========== 使用示例 ==========
-if __name__ == '__main__':
-    # 串行调用（单条）
-    # ans1 = api(img_path_or_list='test_images/test1.jpg',
-    #         question="请描述图片中的内容，并说明图片中有哪些物体？",
-    #         system_prompt="请用英语回答")
-    # print("ans1:", ans1)
+if __name__ == "__main__":
+    # Reads OPENAI_MODEL / OPENAI_API_KEY / OPENAI_BASE_URL from the environment.
+    model = build_model(max_try=5)
 
-    # 并发调用（批量）
+    # ---- Single (serial) call ----
+    ans = model(
+        img_path_or_list="test_images/test1.jpg",
+        question="Describe the content of the image and list the objects in it.",
+        system_prompt="Please answer in English.",
+    )
+    print("answer:", ans)
+
+    # ---- Batch (concurrent) calls ----
     tasks = [
-        {"img_path_or_list": "./api/test_images/test1.jpg", "question": "请描述图片中的内容，并说明图片中有哪些物体？Please answer in English."},
-        {"img_path_or_list": "./api/test_images/test1.jpg", "question": "图片中有几个人？"},
-        # 继续添加更多任务...
+        {"img_path_or_list": "test_images/test1.jpg", "question": "Describe the image in English."},
+        {"img_path_or_list": "test_images/test1.jpg", "question": "How many people are in the image?"},
     ]
-    results = batch_api_call(tasks, num_threads=16)
+    results = batch_api_call(model, tasks, num_threads=16)
     for i, res in enumerate(results):
-        print(f"任务 {i}: {res}")
-
+        print(f"Task {i}: {res}")

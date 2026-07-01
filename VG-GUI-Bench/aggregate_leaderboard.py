@@ -28,18 +28,10 @@ from datetime import datetime
 # 配置
 # ============================================================================
 
-MODEL_DISPLAY_NAMES = {
-    "qwen3vl": "Qwen3-VL-235B-A22B",
-    "gemini_flash": "Gemini-3.1-Flash",
-    "gemini_pro": "Gemini-3.1-Pro",
-    "claude_sonnet": "Claude-Sonnet-4.6",
-    "seed2": "Seed-2.0-Pro",
-    "kimi": "Kimi-K2.5",
-    "gpt5": "GPT-5",
-    "gpt5_mini": "GPT-5-Mini",
-}
-
-MODEL_ORDER = ["qwen3vl", "gemini_flash", "gemini_pro", "claude_sonnet", "seed2", "kimi", "gpt5", "gpt5_mini"]
+# Optional pretty display names. Any model whose evaluation tag is not listed
+# here simply uses its raw tag as the display name, so the leaderboard works
+# with arbitrary models out of the box.
+MODEL_DISPLAY_NAMES = {}
 
 
 # ============================================================================
@@ -99,30 +91,56 @@ def find_log_file(eval_dir):
 
 
 def collect_all_results(log_root):
-    """收集所有评测结果"""
+    """Auto-discover and collect all evaluation results.
+
+    Scans ``log_root`` for directories named ``<tag>_single`` or
+    ``<tag>_uniform10`` (as produced by ``run_leaderboard.sh``), so any model
+    tag works without prior registration.
+    """
     results = defaultdict(dict)
-    
-    for model_key in MODEL_ORDER:
-        for mode in ["single", "uniform10"]:
-            eval_name = f"{model_key}_{mode}"
-            eval_dir = os.path.join(log_root, eval_name)
-            
-            if not os.path.isdir(eval_dir):
-                continue
-            
-            log_path = find_log_file(eval_dir)
-            if log_path is None:
-                print(f"  [WARN] 未找到 run.log: {eval_dir}")
-                continue
-            
-            metrics = extract_metrics_from_log(log_path)
-            if metrics:
-                results[model_key][mode] = metrics
-                print(f"  [OK] {eval_name}: Acc={metrics.get('Acc', 0):.4f}, Comp={metrics.get('Comp', 0):.4f}")
-            else:
-                print(f"  [WARN] 无法解析: {log_path}")
-    
+
+    if not os.path.isdir(log_root):
+        return results
+
+    for entry in sorted(os.listdir(log_root)):
+        eval_dir = os.path.join(log_root, entry)
+        if not os.path.isdir(eval_dir):
+            continue
+
+        mode = None
+        for candidate in ("single", "uniform10"):
+            if entry.endswith("_" + candidate):
+                mode = candidate
+                break
+        if mode is None:
+            continue
+
+        model_key = entry[: -(len(mode) + 1)]
+
+        log_path = find_log_file(eval_dir)
+        if log_path is None:
+            print(f"  [WARN] run.log not found: {eval_dir}")
+            continue
+
+        metrics = extract_metrics_from_log(log_path)
+        if metrics:
+            results[model_key][mode] = metrics
+            print(f"  [OK] {entry}: Acc={metrics.get('Acc', 0):.4f}, Comp={metrics.get('Comp', 0):.4f}")
+        else:
+            print(f"  [WARN] could not parse: {log_path}")
+
     return results
+
+
+def get_model_order(results):
+    """Order models by their best available accuracy (single, then uniform10)."""
+    def best_acc(m):
+        r = results.get(m, {})
+        return max(
+            r.get("single", {}).get("Acc", 0),
+            r.get("uniform10", {}).get("Acc", 0),
+        )
+    return sorted(results.keys(), key=best_acc, reverse=True)
 
 
 # ============================================================================
@@ -156,9 +174,9 @@ def generate_paper_table(results):
     lines.append("| Method | Acc.(%) | Type Acc.(%) | CLICK | SCROLL | TYPE | PRESS | ZOOM | FINISH | Comp.(%) | Eff.↓ |")
     lines.append("|--------|:-------:|:------------:|:-----:|:------:|:----:|:-----:|:----:|:------:|:--------:|:-----:|")
     
-    # 按 Acc 排序
+    # Sort by Acc
     sorted_models = sorted(
-        MODEL_ORDER,
+        results.keys(),
         key=lambda m: results.get(m, {}).get("single", {}).get("Acc", 0),
         reverse=True
     )
@@ -190,7 +208,7 @@ def generate_paper_table(results):
     lines.append("|--------|:-------:|:------------:|:-----:|:------:|:----:|:-----:|:----:|:------:|:--------:|:-----:|:---:|")
     
     sorted_models_b = sorted(
-        MODEL_ORDER,
+        results.keys(),
         key=lambda m: results.get(m, {}).get("uniform10", {}).get("Acc", 0),
         reverse=True
     )
@@ -279,7 +297,7 @@ def generate_csv(results, output_path):
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         
-        for model_key in MODEL_ORDER:
+        for model_key in get_model_order(results):
             name = MODEL_DISPLAY_NAMES.get(model_key, model_key)
             m_single = results.get(model_key, {}).get("single", {})
             m_uniform = results.get(model_key, {}).get("uniform10", {})

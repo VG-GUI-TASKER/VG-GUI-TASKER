@@ -16,12 +16,14 @@
 
 set -e
 
-# ---- HuggingFace Mirror ----
-export HF_ENDPOINT="https://hf-mirror.com"
+# ---- Optional HuggingFace mirror (uncomment if you need it) ----
+# export HF_ENDPOINT="https://hf-mirror.com"
 
-# ---- Paths (on the server) ----
-PROJECT_ROOT="/data/home/stevefan/projects/lql/VG-GUI-Bench"
-MONDAY_ROOT="${PROJECT_ROOT}/MONDAY"
+# ---- Paths ----
+# Defaults to the benchmark root (the parent directory of data_process/).
+# Override with the PROJECT_ROOT env var if your dataset lives elsewhere.
+PROJECT_ROOT="${PROJECT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+MONDAY_ROOT="${MONDAY_ROOT:-${PROJECT_ROOT}/MONDAY}"
 VIDEO_DIR="${MONDAY_ROOT}/ytb_video"
 IMAGES_DIR="${MONDAY_ROOT}/images"
 JSON_PATH="${MONDAY_ROOT}/ours_data.json"

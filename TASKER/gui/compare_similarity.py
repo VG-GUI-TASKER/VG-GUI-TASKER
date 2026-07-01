@@ -53,17 +53,22 @@ def compute_similarity(img_path1, img_path2):
 
 
 if __name__ == "__main__":
-    base = "/data/home/stevefan/projects/monday/images/test_akeys_newnewnew"
-    pairs = [
-        (f"{base}/_7Br1RTKU2c/frame_akeys_0004.png",
-         f"{base}/_7Br1RTKU2c/frame_akeys_0005.png")
-    ]
+    import sys
+    # Usage: python compare_similarity.py <image1> <image2>
+    if len(sys.argv) >= 3:
+        pairs = [(sys.argv[1], sys.argv[2])]
+    else:
+        base = "./MONDAY/images/tasker"
+        pairs = [
+            (f"{base}/_7Br1RTKU2c/frame_tasker_0004.png",
+             f"{base}/_7Br1RTKU2c/frame_tasker_0005.png")
+        ]
 
     for p1, p2 in pairs:
         res = compute_similarity(p1, p2)
-        print(f"\n--- 比较 ---")
-        print(f"  图片1: {p1}")
-        print(f"  图片2: {p2}")
-        print(f"  SSIM:       {res['ssim']:.4f}  (越接近1越相似)")
-        print(f"  MSE:        {res['mse']:.2f}  (越小越相似)")
-        print(f"  直方图相关: {res['hist_corr']:.4f}  (越接近1越相似)")
+        print(f"\n--- comparison ---")
+        print(f"  image 1: {p1}")
+        print(f"  image 2: {p2}")
+        print(f"  SSIM:      {res['ssim']:.4f}  (closer to 1 = more similar)")
+        print(f"  MSE:       {res['mse']:.2f}  (smaller = more similar)")
+        print(f"  hist corr: {res['hist_corr']:.4f}  (closer to 1 = more similar)")

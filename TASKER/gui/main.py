@@ -9,9 +9,9 @@ import re
 import concurrent.futures
 import threading
 
-# 引入 Qwen API 工具
-from qwen.vllm_tool import get_api
-# 保留原仓库的视频分割与节点树工具
+# Generic OpenAI-compatible VLM interface (see model.py)
+from model import build_model
+# Video segmentation / node-tree utilities
 from video_seg import VideoSeg
 from arg_parser import parse_args
 
@@ -435,7 +435,7 @@ def check_new_frame_relevance(model, goal, new_frame_idx, video_path, video_id, 
     print(f"  [Relevance Filter] No replacement found for frame {new_frame_idx}, dropping it.")
     return (False, None)
 
-# ================= AKeyS 树搜索策略 (直接看图) =================
+# ================= TASKER tree-search strategies (image-based) =================
 def bfs_select_segments(model, goal, img_paths, num_frames, segment_des):
     prompt = f"""
     You are provided with sequential images sampled from a UI interaction video.
@@ -988,7 +988,7 @@ def run_one_video(video_id, goal, model, args):
     
     final_img_paths = extract_and_cache_frames(video_path, sample_idx, video_id)
     for i, path in enumerate(final_img_paths):
-        target_path = os.path.join(video_out_dir, f"frame_akeys_{i:04d}.png")
+        target_path = os.path.join(video_out_dir, f"frame_tasker_{i:04d}.png")
         img = cv2.imread(path)
         if img is not None:
             cv2.imwrite(target_path, img)
@@ -1026,8 +1026,12 @@ def main():
     os.makedirs(OUT_ROOT, exist_ok=True)
     os.makedirs(CACHE_DIR, exist_ok=True)
     
-    name_list = ['all'] if args.qwen_name_list.strip().lower() == 'all' else [x.strip() for x in args.qwen_name_list.split(',')]
-    model = get_api(name_list, model_type=args.model_type, EXTRA_PARAMS={"temperature": args.temperature})
+    model = build_model(
+        model_name=args.model_name,
+        api_key=args.api_key,
+        base_url=args.base_url,
+        temperature=args.temperature,
+    )
     
     with open(JSON_DIR, 'r') as f:
         data = json.load(f)
@@ -1054,7 +1058,7 @@ def main():
         all_video_items = all_video_items[start_idx:end_idx]
         print(f"[Shard {args.shard}/10] Processing videos {start_idx}-{end_idx-1} (total {len(all_video_items)}/{total})")
     
-    print(f"Starting AKeyS extraction for {len(all_video_items)} videos using {args.search_strategy.upper()} strategy...")
+    print(f"Starting TASKER extraction for {len(all_video_items)} videos using {args.search_strategy.upper()} strategy...")
     
     all_video_records = {}
     records_lock = threading.Lock()

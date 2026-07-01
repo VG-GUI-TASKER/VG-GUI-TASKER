@@ -48,23 +48,16 @@ except Exception:
 
 # ── ffmpeg for audio extraction ───────────────────────────────────────────────
 def _find_ffmpeg() -> Optional[str]:
-    f = shutil.which("ffmpeg")
-    if f:
-        return f
-    # JianyingPro bundled ffmpeg (common on this machine)
-    base = Path(r"C:\Users\liuqi\AppData\Local\JianyingPro\Apps")
-    if base.exists():
-        for p in sorted(base.iterdir(), reverse=True):
-            ff = p / "ffmpeg.exe"
-            if ff.exists():
-                return str(ff)
-    return None
+    # Prefer ffmpeg on PATH; otherwise set the FFMPEG_BINARY env var explicitly.
+    return shutil.which("ffmpeg") or os.environ.get("FFMPEG_BINARY")
 
 FFMPEG = _find_ffmpeg()
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
+# The annotator reads videos and an ``info.json`` manifest from VIDEO_ROOT.
+# Override with the VIDEO_ROOT env var; defaults to ``<dataset>/video_selected``.
 ROOT = Path(__file__).parent.parent
-VIDEO_ROOT = ROOT / "desktop_pipeline" / "video_selected"
+VIDEO_ROOT = Path(os.environ.get("VIDEO_ROOT", ROOT / "MONDAY" / "video_selected"))
 INFO_JSON  = VIDEO_ROOT / "info.json"
 
 # ── UI constants ──────────────────────────────────────────────────────────────
