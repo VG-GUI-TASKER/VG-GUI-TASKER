@@ -1,14 +1,14 @@
 """
 方法3: TASKER 取帧 + VLM 理解 (ours)
 
-核心设计：Coverage-Aware A* (覆盖度感知的自适应选帧)
+核心设计：自适应 A* 选帧（兼顾时间覆盖均衡）
 
 核心问题:
   A* 容易反复选同一个区域（视觉变化大的区域），导致帧在局部聚集，
   而视频其他区域完全缺失关键信息。
 
 解决方案:
-  1. 覆盖度感知选帧: segment 可选性由「问题相关性 × 覆盖度需求」决定
+  1. 自适应选帧: segment 可选性由「问题相关性 × 覆盖度需求」决定
      - 已密集采样的区域，其相邻 segments 优先级显著降低
      - 大 gap（稀疏区域）自动获得更高优先级
   2. 强制覆盖保证: 每步选帧后检查分布，若某段视频的覆盖密度 < 阈值，
@@ -392,19 +392,19 @@ Be specific and concise (2-3 sentences). Focus on what's MISSING."""
 
 
 # ============================================================
-#  Coverage-Aware A* Segment Selection
+#  Adaptive A* Segment Selection
 #  
 #  核心创新：在 prompt 中告诉 VLM 当前覆盖度分布，
 #  并明确指出哪些区域已经足够密集（不需要再选），
 #  哪些区域是稀疏的（优先选择）。
 # ============================================================
 
-def coverage_aware_select_segment(
+def adaptive_select_segment(
     question, options_text, img_paths, num_frames,
     segment_des, missing_info_hint, coverage_info
 ):
     """
-    覆盖度感知的 A* segment 选择。
+    自适应 A* segment 选择（兼顾覆盖均衡）。
     
     在标准 A* 基础上，明确告诉 VLM:
     - 哪些区域已经密集（避免选择）
@@ -455,7 +455,7 @@ Return JSON: {{"frame_descriptions": [{{"segment_id": "X", "duration": "start - 
 
 
 # ============================================================
-#  Segment 选择 + 分割 + 去重 (无冻结, 覆盖度感知)
+#  Segment 选择 + 分割 + 去重 (无冻结, 自适应覆盖)
 # ============================================================
 
 def select_and_split_segment(
@@ -528,7 +528,7 @@ def select_and_split_segment(
                 parts.append("DENSE regions (LOW priority, avoid unless critical):\n  " + "\n  ".join(dense_regions))
             coverage_info = "\n".join(parts)
         
-        response = coverage_aware_select_segment(
+        response = adaptive_select_segment(
             question, options_text, img_paths, num_frames_total,
             segment_des_str, missing_info_hint, coverage_info
         )
@@ -646,7 +646,7 @@ def select_and_split_segment(
 
 
 # ============================================================
-#  核心流程: TASKER 选帧 (覆盖度感知)
+#  核心流程: TASKER 选帧 (自适应覆盖)
 # ============================================================
 
 def tasker_select_frames(
@@ -661,7 +661,7 @@ def tasker_select_frames(
     min_steps: int = 2,
 ) -> dict:
     """
-    TASKER 覆盖度感知选帧。
+    TASKER 自适应选帧。
     
     核心改进: 解决 A* 在局部区域反复聚集的问题。
     
@@ -670,7 +670,7 @@ def tasker_select_frames(
     2. 主循环（每步 +1 帧，最多到 16 帧）:
        a. 覆盖度审计: 检查帧分布是否严重失衡
        b. 如果失衡 → 强制选最大 gap 区域（不问 VLM）
-       c. 如果平衡 → mid-reasoning + coverage-aware A* 选帧
+       c. 如果平衡 → mid-reasoning + 自适应 A* 选帧
        d. 视觉变化分割 + 去重
     3. 返回 16 帧
     """
@@ -948,7 +948,7 @@ def run_egoschema(args):
     
     print("=" * 60)
     print(f"方法: TASKER (max_frames={args.max_frames})")
-    print(f"      覆盖度感知 A* 选帧 → 统一 Final QA")
+    print(f"      自适应 A* 选帧 → 统一 Final QA")
     print(f"数据集: EgoSchema {split_name}")
     print(f"并行数: {args.max_workers}")
     print("=" * 60)
@@ -1046,7 +1046,7 @@ def run_nextqa(args):
     """在 NExT-QA 上评测"""
     print("=" * 60)
     print(f"方法: TASKER (max_frames={args.max_frames})")
-    print(f"      覆盖度感知 A* 选帧 → 统一 Final QA")
+    print(f"      自适应 A* 选帧 → 统一 Final QA")
     print(f"数据集: NExT-QA MC (test)")
     print(f"并行数: {args.max_workers}")
     print("=" * 60)
@@ -1138,7 +1138,7 @@ if __name__ == "__main__":
                         help="初始均匀采样帧数")
     parser.add_argument("--search_strategy", type=str, default="a_star",
                         choices=["a_star"],
-                        help="搜索策略 (coverage-aware A*)")
+                        help="搜索策略 (自适应 A*)")
     parser.add_argument("--conf_lower", type=int, default=3,
                         help="置信度阈值 (暂未使用，保留接口)")
     parser.add_argument("--min_steps", type=int, default=2,

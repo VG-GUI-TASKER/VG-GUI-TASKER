@@ -94,7 +94,7 @@ run_videoagent() {
 }
 
 run_tasker() {
-    echo "== [TASKER] coverage-aware A* keyframe search -> VLM QA (ours) | dataset: $1 =="
+    echo "== [TASKER] adaptive A* keyframe search -> VLM QA (ours) | dataset: $1 =="
     python "${SCRIPT_DIR}/eval_tasker.py" \
         --dataset "$1" --max_workers ${MAX_WORKERS} \
         --search_strategy a_star --max_frames 16 --init_frames 4 \

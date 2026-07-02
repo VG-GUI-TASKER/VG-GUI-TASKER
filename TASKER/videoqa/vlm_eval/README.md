@@ -19,7 +19,7 @@ and lets the VLM answer the multiple-choice question. It supports both
 | Uniform | `eval_uniform.py` | equally-spaced N frames |
 | VideoTree | `eval_videotree.py` | CLIP (ViT-L/14) clustering + VLM relevance scoring |
 | VideoAgent | `eval_videoagent.py` | VLM-guided iterative selection (ECCV 2024) |
-| **TASKER (ours)** | `eval_tasker.py` | coverage-aware A\* keyframe search |
+| **TASKER (ours)** | `eval_tasker.py` | adaptive A\* keyframe search |
 
 All methods share the same final QA prompt (`build_vqa_prompt`) so the
 comparison isolates the effect of frame selection.
@@ -98,10 +98,10 @@ python show_results.py
 |-----|---------|---------|
 | `--max_frames` | 16 | hard cap on selected frames (aligned with Uniform) |
 | `--init_frames` | 4 | initial uniform frames (guarantees endpoint coverage) |
-| `--search_strategy` | `a_star` | coverage-aware A\* search |
+| `--search_strategy` | `a_star` | adaptive A\* search |
 | `--max_workers` | 16 | number of videos processed in parallel |
 
-The coverage-aware search prevents A\* from repeatedly zooming into a single
+The adaptive search prevents A\* from repeatedly zooming into a single
 high-motion region: segment selectability is weighted by *question relevance ×
 coverage need*, sparse regions are forced when the frame distribution becomes
 too imbalanced, and near-duplicate frames are rejected via colour-histogram

@@ -122,7 +122,7 @@ This is the VideoQA setup that reproduces our main results (Table 1). Instead of
 ```bash
 cd videoqa/vlm_eval
 
-# Run TASKER (coverage-aware A*) on both datasets
+# Run TASKER (adaptive A*) on both datasets
 python3 eval_tasker.py --dataset both
 
 # Or a specific dataset / baseline
