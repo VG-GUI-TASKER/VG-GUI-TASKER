@@ -3,13 +3,13 @@
 This directory holds the **VLM-based** VideoQA evaluation used in the ECCV 2026
 paper. Instead of relying on pre-extracted text captions, it feeds the frames
 selected by **TASKER** *directly* into a multi-image vision-language model (VLM)
-and lets the VLM answer the multiple-choice question. This is the strongest,
-paper-consistent VideoQA setup and it supports both **EgoSchema** and **NExT-QA**.
+and lets the VLM answer the multiple-choice question. It supports both
+**EgoSchema** and **NExT-QA**.
 
 > The caption-based pipeline in the parent [`videoqa/`](../) directory is the
-> original AKeyS setup (LLoVi captions + a text LLM, EgoSchema only). This
-> `vlm_eval/` directory is a self-contained, model-agnostic alternative that
-> reproduces the Table 1 numbers and adds NExT-QA.
+> AKeyS-style setup (LLoVi captions + a text LLM, EgoSchema only). This
+> `vlm_eval/` directory is a self-contained, model-agnostic evaluation that
+> reproduces the Table 1 numbers and covers NExT-QA.
 
 ## Methods
 

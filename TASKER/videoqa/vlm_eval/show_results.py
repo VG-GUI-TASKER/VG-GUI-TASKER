@@ -18,7 +18,7 @@ METHOD_DISPLAY_NAMES = {
     "uniform_16frames": "Uniform (16 frames)",
     "videotree_clip_16frames": "VideoTree-CLIP (16 frames)",
     "videoagent_16frames": "VideoAgent (16 frames)",
-    "tasker_v4_coverage_aware_16frames": "TASKER coverage-aware (16 frames)",
+    "tasker_16frames": "TASKER (16 frames)",
 }
 
 

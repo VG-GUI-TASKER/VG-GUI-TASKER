@@ -646,7 +646,7 @@ def select_and_split_segment(
 
 
 # ============================================================
-#  核心流程: TASKER-v4 选帧 (Coverage-Aware)
+#  核心流程: TASKER 选帧 (覆盖度感知)
 # ============================================================
 
 def tasker_select_frames(
@@ -661,7 +661,7 @@ def tasker_select_frames(
     min_steps: int = 2,
 ) -> dict:
     """
-    TASKER-v4 覆盖度感知选帧。
+    TASKER 覆盖度感知选帧。
     
     核心改进: 解决 A* 在局部区域反复聚集的问题。
     
@@ -947,7 +947,7 @@ def run_egoschema(args):
     split_tag = "egoschema_subset" if subset_only else "egoschema_full"
     
     print("=" * 60)
-    print(f"方法: TASKER-v4 Coverage-Aware (max_frames={args.max_frames})")
+    print(f"方法: TASKER (max_frames={args.max_frames})")
     print(f"      覆盖度感知 A* 选帧 → 统一 Final QA")
     print(f"数据集: EgoSchema {split_name}")
     print(f"并行数: {args.max_workers}")
@@ -956,8 +956,8 @@ def run_egoschema(args):
     dataset = load_egoschema_dataset(subset_only=subset_only)
     print(f"  加载了 {len(dataset)} 个样本")
     
-    # 使用 v4 checkpoint 目录
-    checkpoint_dir = os.path.join(RESULTS_BASE_DIR, "tasker_v4_checkpoint", split_tag)
+    # checkpoint 目录
+    checkpoint_dir = os.path.join(RESULTS_BASE_DIR, "tasker_checkpoint", split_tag)
     os.makedirs(checkpoint_dir, exist_ok=True)
     checkpoint_path = os.path.join(checkpoint_dir, "checkpoint.json")
     
@@ -973,8 +973,8 @@ def run_egoschema(args):
     if not remaining:
         print("  所有样本已处理完毕！")
     else:
-        effective_workers = args.max_workers  # 8xA800 vLLM 支持高并发 batch
-        pbar = tqdm(total=len(remaining), desc="EgoSchema TASKER-v4")
+        effective_workers = args.max_workers
+        pbar = tqdm(total=len(remaining), desc="EgoSchema TASKER")
         
         with ThreadPoolExecutor(max_workers=effective_workers) as executor:
             futures = {
@@ -1005,7 +1005,7 @@ def run_egoschema(args):
     ground_truth = {item["uid"]: item["answer"] for item in dataset}
     
     eval_result = evaluate_egoschema(predictions, ground_truth)
-    eval_result["method"] = f"tasker_v4_coverage_aware_{args.max_frames}frames"
+    eval_result["method"] = f"tasker_{args.max_frames}frames"
     eval_result["split"] = "Sub." if subset_only else "Full"
     eval_result["timestamp"] = datetime.now().strftime("%Y%m%d_%H%M%S")
     eval_result["avg_frames"] = float(np.mean([r.get("num_frames", 0) for r in processed.values()]))
@@ -1025,7 +1025,7 @@ def run_egoschema(args):
     eval_result["stop_stats"] = stop_stats
     
     print(f"\n{'='*60}")
-    print(f"  EgoSchema {split_name} TASKER-v4 评测结果:")
+    print(f"  EgoSchema {split_name} TASKER 评测结果:")
     print(f"  准确率: {eval_result['accuracy_pct']}")
     print(f"  平均帧数: {eval_result['avg_frames']:.1f}")
     print(f"  平均搜索步数: {eval_result['avg_steps']:.1f}")
@@ -1033,11 +1033,11 @@ def run_egoschema(args):
     print(f"  停止原因: {stop_stats}")
     print(f"{'='*60}\n")
     
-    save_results(eval_result, f"tasker_v4_coverage_aware_{args.max_frames}frames", split_tag)
+    save_results(eval_result, f"tasker_{args.max_frames}frames", split_tag)
     
     # Full set: 导出提交文件
     if not subset_only:
-        export_egoschema_submission(predictions, f"tasker_v4_coverage_aware_{args.max_frames}frames")
+        export_egoschema_submission(predictions, f"tasker_{args.max_frames}frames")
     
     return eval_result
 
@@ -1045,7 +1045,7 @@ def run_egoschema(args):
 def run_nextqa(args):
     """在 NExT-QA 上评测"""
     print("=" * 60)
-    print(f"方法: TASKER-v4 Coverage-Aware (max_frames={args.max_frames})")
+    print(f"方法: TASKER (max_frames={args.max_frames})")
     print(f"      覆盖度感知 A* 选帧 → 统一 Final QA")
     print(f"数据集: NExT-QA MC (test)")
     print(f"并行数: {args.max_workers}")
@@ -1054,7 +1054,7 @@ def run_nextqa(args):
     dataset = load_nextqa_dataset()
     print(f"  加载了 {len(dataset)} 个样本")
     
-    checkpoint_dir = os.path.join(RESULTS_BASE_DIR, "tasker_v4_checkpoint", "nextqa")
+    checkpoint_dir = os.path.join(RESULTS_BASE_DIR, "tasker_checkpoint", "nextqa")
     os.makedirs(checkpoint_dir, exist_ok=True)
     checkpoint_path = os.path.join(checkpoint_dir, "checkpoint.json")
     
@@ -1070,8 +1070,8 @@ def run_nextqa(args):
     if not remaining:
         print("  所有样本已处理完毕！")
     else:
-        effective_workers = args.max_workers  # 8xA800 vLLM 支持高并发 batch
-        pbar = tqdm(total=len(remaining), desc="NExTQA TASKER-v4")
+        effective_workers = args.max_workers
+        pbar = tqdm(total=len(remaining), desc="NExTQA TASKER")
         
         with ThreadPoolExecutor(max_workers=effective_workers) as executor:
             futures = {
@@ -1099,7 +1099,7 @@ def run_nextqa(args):
     
     pred_list = [{"quid": uid, "pred": r["pred"]} for uid, r in processed.items()]
     eval_result = evaluate_nextqa(pred_list, dataset)
-    eval_result["method"] = f"tasker_v4_coverage_aware_{args.max_frames}frames"
+    eval_result["method"] = f"tasker_{args.max_frames}frames"
     eval_result["timestamp"] = datetime.now().strftime("%Y%m%d_%H%M%S")
     eval_result["avg_frames"] = float(np.mean([r.get("num_frames", 0) for r in processed.values()]))
     eval_result["avg_steps"] = float(np.mean([r.get("num_steps", 0) for r in processed.values()]))
@@ -1113,7 +1113,7 @@ def run_nextqa(args):
     eval_result["stop_stats"] = stop_stats
     
     print(f"\n{'='*60}")
-    print(f"  NExT-QA TASKER-v4 评测结果:")
+    print(f"  NExT-QA TASKER 评测结果:")
     print(f"  Avg: {eval_result['Avg']}")
     print(f"  平均帧数: {eval_result['avg_frames']:.1f}")
     print(f"  平均搜索步数: {eval_result['avg_steps']:.1f}")
@@ -1123,12 +1123,12 @@ def run_nextqa(args):
             print(f"  {cat}: {info['accuracy_pct']}")
     print(f"{'='*60}\n")
     
-    save_results(eval_result, f"tasker_v4_coverage_aware_{args.max_frames}frames", "nextqa")
+    save_results(eval_result, f"tasker_{args.max_frames}frames", "nextqa")
     return eval_result
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("TASKER-v4 Coverage-Aware 评测")
+    parser = argparse.ArgumentParser("TASKER 评测")
     parser.add_argument("--dataset", type=str, choices=["egoschema", "nextqa", "both"], default="both")
     parser.add_argument("--max_frames", type=int, default=TARGET_MAX_FRAMES,
                         help="最大帧数上限 (与 Uniform 对齐)")
@@ -1138,7 +1138,7 @@ if __name__ == "__main__":
                         help="初始均匀采样帧数")
     parser.add_argument("--search_strategy", type=str, default="a_star",
                         choices=["a_star"],
-                        help="搜索策略 (v4 统一使用 coverage-aware A*)")
+                        help="搜索策略 (coverage-aware A*)")
     parser.add_argument("--conf_lower", type=int, default=3,
                         help="置信度阈值 (暂未使用，保留接口)")
     parser.add_argument("--min_steps", type=int, default=2,

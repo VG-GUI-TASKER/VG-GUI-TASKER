@@ -10,7 +10,7 @@ Methods:
   - uniform    : uniformly sampled frames + VLM
   - videotree  : adaptive CLIP-clustering frame selection + VLM
   - videoagent : VLM-guided iterative frame selection + VLM
-  - tasker     : TASKER coverage-aware A* keyframe search + VLM (ours)
+  - tasker     : TASKER keyframe search (A*) + VLM (ours)
 """
 
 __version__ = "1.0.0"

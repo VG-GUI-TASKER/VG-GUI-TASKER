@@ -23,8 +23,8 @@ All stages share the identical tree-search formulation; they differ only in the 
 
 For VideoQA we ship **two complementary evaluation setups** (details in [Stage 1](#-stage-1--tasker-for-videoqa-videoqa)):
 
-- **Caption-based** ([`videoqa/`](videoqa/)) — the original AKeyS setup: TASKER searches over pre-extracted text captions with a text LLM (EgoSchema).
-- **VLM-based** ([`videoqa/vlm_eval/`](videoqa/vlm_eval/)) — the stronger, paper-consistent setup used to produce the main results (Table 1): TASKER selects frames that are fed directly to a multi-image VLM, covering **both EgoSchema and NExT-QA**, together with all baselines for reproduction.
+- **Caption-based** ([`videoqa/`](videoqa/)) — the AKeyS-style setup: TASKER searches over pre-extracted text captions with a text LLM (EgoSchema).
+- **VLM-based** ([`videoqa/vlm_eval/`](videoqa/vlm_eval/)) — TASKER selects frames that are fed directly to a multi-image VLM, covering **both EgoSchema and NExT-QA**, together with all baselines. This is the setup that reproduces the main results (Table 1).
 
 <img src="../assets/TASKER.png" style="zoom:200%;" />
 
@@ -117,7 +117,7 @@ It outputs a histogram of solved problems and accuracy at each search step:
 
 ### 1b. VLM-based evaluation (EgoSchema + NExT-QA) — paper Table 1
 
-This is the **stronger, paper-consistent** VideoQA setup and the recommended entry point for reproducing our main results. Instead of relying on pre-extracted captions, TASKER selects keyframes that are fed **directly to a multi-image VLM** (the same generic OpenAI-compatible interface used by the GUI stage). It supports **both EgoSchema (subset / fullset) and NExT-QA**, and ships all baselines (`textonly`, `uniform`, `videotree`, `videoagent`) so the full comparison table can be reproduced.
+This is the VideoQA setup that reproduces our main results (Table 1). Instead of relying on pre-extracted captions, TASKER selects keyframes that are fed **directly to a multi-image VLM** (the same generic OpenAI-compatible interface used by the GUI stage). It supports **both EgoSchema (subset / fullset) and NExT-QA**, and ships all baselines (`textonly`, `uniform`, `videotree`, `videoagent`) so the full comparison table can be reproduced.
 
 ```bash
 cd videoqa/vlm_eval
@@ -134,7 +134,7 @@ bash run_all.sh --method all --dataset both
 python3 show_results.py
 ```
 
-Data paths and hyper-parameters are configured through environment variables (see [`vlm_eval/README.md`](videoqa/vlm_eval/README.md) for the full data layout, metrics and TASKER-v4 coverage-aware settings). The same `OPENAI_*` endpoint variables configured above are reused here.
+Data paths and hyper-parameters are configured through environment variables (see [`vlm_eval/README.md`](videoqa/vlm_eval/README.md) for the full data layout, metrics and TASKER search settings). The same `OPENAI_*` endpoint variables configured above are reused here.
 
 ---
 

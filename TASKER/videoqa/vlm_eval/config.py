@@ -1,9 +1,9 @@
 """
 Configuration for the VLM-based VideoQA evaluation (EgoSchema & NExT-QA).
 
-This is the strongest / paper-consistent VideoQA setup: TASKER keyframe search
-that feeds a multi-image vision-language model (VLM) directly with the selected
-frames, together with the Uniform / VideoTree / VideoAgent / Text-only baselines.
+This VideoQA setup runs the TASKER keyframe search and feeds a multi-image
+vision-language model (VLM) directly with the selected frames, together with the
+Uniform / VideoTree / VideoAgent / Text-only baselines.
 
 Everything is configured through environment variables so that anyone can
 reproduce the numbers without editing code:
@@ -57,7 +57,7 @@ VIDEOTREE_NUM_SUBSUBCLUSTERS = 4
 VIDEOTREE_MAX_FRAMES = 16
 
 # TASKER parameters
-TASKER_INIT_INTERVAL = 4          # initial uniform frames (v4 uses frame count)
+TASKER_INIT_INTERVAL = 4          # initial uniform frames
 TASKER_FINAL_STEP = 5             # kept for backward compatibility
 TASKER_SEARCH_STRATEGY = "a_star" # a_star / bfs / gbfs / dijkstra
 TASKER_MAX_FRAMES = 16            # hard cap on selected frames (TARGET_MAX_FRAMES)
