@@ -16,10 +16,15 @@ A central finding of our paper is that this **same keyframe-search paradigm** be
 
 | Stage | Directory | Task | Model interface |
 |-------|-----------|------|-----------------|
-| 🔍 **VideoQA** | [`videoqa/`](videoqa/) | Low-level video question answering (EgoSchema, NExT-QA) | Caption/text-based LLM with response caching |
+| 🔍 **VideoQA** | [`videoqa/`](videoqa/) | Low-level video question answering (EgoSchema, NExT-QA) | Caption/text-based LLM **or** multi-image VLM (two setups, see below) |
 | 📱 **GUI (agentic)** | [`gui/`](gui/) | High-level video-guided GUI keyframe extraction feeding [VG-GUI-Bench](../VG-GUI-Bench/README.md) | Multi-image vision-language model (VLM) |
 
-Both stages share the identical tree-search formulation; they differ only in the underlying model interface (text captions vs. multi-image VLM) and in the input data (generic web videos vs. GUI tutorial videos). This makes TASKER a **generalized** keyframe extractor that bridges VideoQA and video-guided agentic tasks.
+All stages share the identical tree-search formulation; they differ only in the underlying model interface (text captions vs. multi-image VLM) and in the input data (generic web videos vs. GUI tutorial videos). This makes TASKER a **generalized** keyframe extractor that bridges VideoQA and video-guided agentic tasks.
+
+For VideoQA we ship **two complementary evaluation setups** (details in [Stage 1](#-stage-1--tasker-for-videoqa-videoqa)):
+
+- **Caption-based** ([`videoqa/`](videoqa/)) — the original AKeyS setup: TASKER searches over pre-extracted text captions with a text LLM (EgoSchema).
+- **VLM-based** ([`videoqa/vlm_eval/`](videoqa/vlm_eval/)) — the stronger, paper-consistent setup used to produce the main results (Table 1): TASKER selects frames that are fed directly to a multi-image VLM, covering **both EgoSchema and NExT-QA**, together with all baselines for reproduction.
 
 <img src="../assets/TASKER.png" style="zoom:200%;" />
 
@@ -58,6 +63,15 @@ TASKER is lightweight and can run on a personal computer without a GPU.
 ---
 
 ## 🔍 Stage 1 — TASKER for VideoQA (`videoqa/`)
+
+We provide two evaluation setups that share the same TASKER search core but differ in how frames/segments are consumed:
+
+| Setup | Entry point | Datasets | How TASKER output is used | Reproduces |
+|-------|-------------|----------|---------------------------|------------|
+| **1a. Caption-based** | [`videoqa/`](videoqa/) (`main.py`) | EgoSchema | Text captions of selected segments → text LLM | Original AKeyS setup |
+| **1b. VLM-based** | [`videoqa/vlm_eval/`](videoqa/vlm_eval/) | EgoSchema + NExT-QA | Selected frames → multi-image VLM | Paper main results (Table 1) |
+
+### 1a. Caption-based evaluation (EgoSchema)
 
 Reformulates keyframe extraction as a generalized graph search over caption segments, and lets an LLM decide which segments to expand until it is confident enough to answer.
 
@@ -100,6 +114,27 @@ python3 analyze_results.py --filepath YOUR_RESULT_JSON_FILE_PATH
 It outputs a histogram of solved problems and accuracy at each search step:
 
 <img src="../assets/egoschema_results.png" style="zoom: 50%;" />
+
+### 1b. VLM-based evaluation (EgoSchema + NExT-QA) — paper Table 1
+
+This is the **stronger, paper-consistent** VideoQA setup and the recommended entry point for reproducing our main results. Instead of relying on pre-extracted captions, TASKER selects keyframes that are fed **directly to a multi-image VLM** (the same generic OpenAI-compatible interface used by the GUI stage). It supports **both EgoSchema (subset / fullset) and NExT-QA**, and ships all baselines (`textonly`, `uniform`, `videotree`, `videoagent`) so the full comparison table can be reproduced.
+
+```bash
+cd videoqa/vlm_eval
+
+# Run TASKER (coverage-aware A*) on both datasets
+python3 eval_tasker.py --dataset both
+
+# Or a specific dataset / baseline
+python3 eval_uniform.py --dataset nextqa --num_frames 16
+python3 eval_videotree.py --dataset egoschema --egoschema_split subset
+
+# Run everything (all methods × datasets) and summarize
+bash run_all.sh --method all --dataset both
+python3 show_results.py
+```
+
+Data paths and hyper-parameters are configured through environment variables (see [`vlm_eval/README.md`](videoqa/vlm_eval/README.md) for the full data layout, metrics and TASKER-v4 coverage-aware settings). The same `OPENAI_*` endpoint variables configured above are reused here.
 
 ---
 

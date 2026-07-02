@@ -8,12 +8,25 @@
 
 VG-GUI-Bench evaluates how well multimodal large language models (VLMs) can predict the next GUI action on a mobile device, given reference frames extracted from YouTube tutorial videos and the current screen state. The dataset is released on Hugging Face as [🤗 **Aoraku/VG-GUI-Bench**](https://huggingface.co/datasets/Aoraku/VG-GUI-Bench) and is built on the [MONDAY](https://huggingface.co/datasets/runamu/MONDAY) dataset.
 
+<p align="center">
+  <img src="../assets/vg_gui_bench_overview.png" width="100%" alt="VG-GUI-Bench overview: benchmark pipeline, action space, and evaluation metrics" />
+</p>
+<p align="center"><em>Overview of VG-GUI-Bench: the benchmark pipeline (left), the supported action space (middle), and the evaluation metrics (right).</em></p>
+
 ### Key Idea
 
 Given a tutorial video showing how to complete a task on a mobile phone, the model must:
 1. Understand the workflow from reference frames (keyframes / uniform samples / annotated frames)
 2. Identify the current position in the task from previous action history
 3. Predict the **exact next action** (CLICK, SCROLL, TYPE, PRESS, ZOOM, FINISH) on the current screen
+
+### Example
+
+A full episode from VG-GUI-Bench (*"How to save emails as PDF on iPhone & iPad?"*). The keyframes selected by our **TASKER** algorithm serve as reference frames; at each step the model predicts the next action, which is compared against the ground truth by action-type and argument matching.
+
+<p align="center">
+  <img src="../assets/vg_gui_bench_demo.png" width="72%" alt="VG-GUI-Bench qualitative example: a full task episode with TASKER keyframes, per-step predictions, and ground-truth actions" />
+</p>
 
 ## Project Structure
 
