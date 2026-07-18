@@ -6,6 +6,7 @@
   <a href="https://vg-gui-tasker.github.io/"><img src="https://img.shields.io/badge/Project-Page-blue.svg?logo=github" alt="Project Page"></a>
   <a href="https://github.com/VG-GUI-TASKER/VG-GUI-TASKER"><img src="https://img.shields.io/badge/Code-GitHub-181717.svg?logo=github" alt="Code"></a>
   <a href="https://huggingface.co/datasets/Aoraku/VG-GUI-Bench"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Data-VG--GUI--Bench-FFD21E.svg" alt="Data"></a>
+  <a href="https://huggingface.co/spaces/fansunqi/tasker-keyframe-extractor"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Demo-TASKER%20Keyframe%20Extractor-FFD21E.svg" alt="TASKER Keyframe Extractor Demo"></a>
   <a href="https://vg-gui-tasker.github.io/#leaderboard"><img src="https://img.shields.io/badge/%F0%9F%8F%86%20Leaderboard-Online-success.svg" alt="Leaderboard"></a>
   <a href="https://lbesson.mit-license.org/"><img src="https://img.shields.io/badge/License-MIT-green.svg?logo=github" alt="License"></a>
 </p>
@@ -86,6 +87,7 @@ The **same** search paradigm powers both paradigms studied in the paper, so the 
 - 🌐 Project Page: https://vg-gui-tasker.github.io/
 - 💻 Code: https://github.com/VG-GUI-TASKER/VG-GUI-TASKER
 - 🗂️ Data (VG-GUI-Bench): https://huggingface.co/datasets/Aoraku/VG-GUI-Bench
+- 🤗 TASKER Keyframe Extractor Demo: https://huggingface.co/spaces/fansunqi/tasker-keyframe-extractor
 - 🏆 Leaderboard: https://vg-gui-tasker.github.io/#leaderboard
 
 ## Acknowledgements
